@@ -18,6 +18,11 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include":[
+    "./config-overrides.js",
+    "src"
+  ],
+  "exclude": ["node_modules", "build",
+    "coverage"
+  ]
 }
