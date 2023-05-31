@@ -1,7 +1,11 @@
 import type { AppProps } from "next/app"
 import React from "react"
-import SiteLayout from '../src/siteLayout/SiteLayout'
+import Layout from "../src/components/layout/Layout"
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <SiteLayout><Component {...pageProps} /></SiteLayout>
+  return (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  )
 }
