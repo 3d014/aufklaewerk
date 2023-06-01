@@ -4,6 +4,7 @@ export const styles = {
     fontSize: "20px",
     fontFamily: "Georgia,serif",
     color: "#F0956A",
+    margin: 0,
     fontWeight: "bold",
     "&.Mui-selected": {
       textDecoration: "none",
@@ -13,11 +14,12 @@ export const styles = {
     },
   },
   appBarStyle: {
-    height: "56px",
+    height: "7vh",
     fontFamily: "Georgia,serif",
     color: "#f79163",
     background: "#045344",
     button: {
+      height: "7vh",
       "&:hover": {
         background: "#44634e",
         transition: "none",
@@ -27,6 +29,7 @@ export const styles = {
     },
   },
   tabsStyle: {
+    height: "64px",
     marginLeft: "auto",
     fontFamily: "Georgia,serif",
   },
