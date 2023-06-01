@@ -14,12 +14,12 @@ export const styles = {
     },
   },
   appBarStyle: {
-    height: "7vh",
+    height: "56px",
     fontFamily: "Georgia,serif",
     color: "#f79163",
     background: "#045344",
     button: {
-      height: "7vh",
+      height: "56px",
       "&:hover": {
         background: "#44634e",
         transition: "none",
