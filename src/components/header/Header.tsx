@@ -9,7 +9,7 @@ import { pages, pathValues } from "@/src/routes"
 const Header = () => {
   const router = useRouter()
   const [value, setValue] = useState(getPathValue(router.pathname) ?? false)
-  const isMatch = useMediaQuery("(max-width:1000px)")
+  const isMatch = useMediaQuery("(max-width:1100px)")
 
   function handleTabChange(path: string) {
     router.push(path)
