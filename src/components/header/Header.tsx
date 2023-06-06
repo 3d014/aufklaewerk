@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { AppBar, Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { useRouter } from "next/router"
 import SideBar from "../side-bar/SideBar"
@@ -14,6 +14,9 @@ const Header = () => {
   function handleTabChange(path: string) {
     router.push(path)
   }
+  useEffect(() => {
+    setValue(getPathValue(router.pathname) ?? false)
+  }, [router.pathname])
 
   function getPathValue(route: string): number {
     const pathParts = route.split("/")
