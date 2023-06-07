@@ -14,6 +14,7 @@ const Header = () => {
   function handleTabChange(path: string) {
     router.push(path)
   }
+
   useEffect(() => {
     setValue(getPathValue(router.pathname) ?? false)
   }, [router.pathname])

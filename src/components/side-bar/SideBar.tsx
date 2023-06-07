@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
+import {styles} from '../side-bar/SideBar.styles'
 
 const SideBar = () => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
@@ -18,17 +19,7 @@ const SideBar = () => {
       </Drawer>
       <IconButton
         sx={{
-          color: "#ff5100",
-          marginLeft: "auto",
-          "&.MuiButtonBase-root:hover": {
-            bgcolor: "transparent",
-          },
-          "&.MuiButtonBase-root:focus": {
-            bgcolor: "transparent",
-          },
-          "&.MuiButtonBase-root:active": {
-            bgcolor: "transparent",
-          },
+          ...styles.iconButton
         }}
         onClick={() => {
           setOpenDrawer(!openDrawer)
