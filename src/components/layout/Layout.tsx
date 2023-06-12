@@ -10,7 +10,7 @@ const Layout = ({ children }: SiteLayoutProps) => {
   return (
     <>
       <Header></Header>
-      <div style={{ marginTop: "70px" }}>{children}</div>
+      <div style={{ marginTop: "64px" }}>{children}</div>
     </>
   )
 }
