@@ -8,7 +8,7 @@ import { pages, pathValues } from "@/src/routes"
 
 const Header = () => {
   const router = useRouter()
-  const [value, setValue] = useState(getPathValue(router.pathname) ?? false)
+  const [tabValue, setTabValue] = useState(getPathValue(router.pathname) ?? false)
   const isMatch = useMediaQuery("(max-width:1100px)")
 
   function handleTabChange(path: string) {
@@ -16,7 +16,7 @@ const Header = () => {
   }
 
   useEffect(() => {
-    setValue(getPathValue(router.pathname) ?? false)
+    setTabValue(getPathValue(router.pathname) ?? false)
   }, [router.pathname])
 
   function getPathValue(route: string): number {
@@ -38,8 +38,8 @@ const Header = () => {
                 style: { display: "none" },
               }}
               textColor="inherit"
-              value={value}
-              onChange={(e, value) => setValue(value)}
+              value={tabValue}
+              onChange={(e, value) => setTabValue(value)}
             >
               {pages.map((page, index) => {
                 return (

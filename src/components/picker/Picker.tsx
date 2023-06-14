@@ -1,21 +1,13 @@
  import React, { useState } from "react"
  import { Autocomplete, TextField,Slider,Button } from "@mui/material"
  import SearchIcon from '@mui/icons-material/Search';
- 
+ import {mainStyles,muiComponentStyles} from './Picker.styles'
 const Picker=()=>{
     const [value,setValue]=useState<string|null>(null)
-   return <div style={{width:'266px',display:'flex',
-   justifyContent:'space-evenly',alignItems:'flex-start',
-   flexDirection:'column',padding:'1.5rem 1rem 1.5rem 1rem',rowGap:'10px',
-   border:'2px black solid',margin:'1rem',
-   borderRadius:'10px',
-   backgroundColor:'white',
-   zIndex:'9999'
-   
-   }}>
+   return <div style={{...mainStyles.mainDivStyle}}>
 
     <Autocomplete
-     sx={{width:'100%',fontSize:'1rem'}}
+     sx={{...muiComponentStyles.autoComplete}}
     options={['html','css']}
     renderInput={(params)=><TextField {...params} label='Themengebiet wahlen'></TextField>}
     value={value}
@@ -23,7 +15,7 @@ const Picker=()=>{
     />
 
 <Autocomplete
-     sx={{width:'100%'}}
+     sx={{...muiComponentStyles.autoComplete}}
     options={['htmsadfl','css']}
     renderInput={(params)=><TextField {...params} label='Angebotsart wahlen'></TextField>}
     value={value}
@@ -31,18 +23,18 @@ const Picker=()=>{
     />
 
 <Autocomplete
-    sx={{width:'100%'}}
+    sx={{...muiComponentStyles.autoComplete}}
     options={['zvaka','guma']}
     renderInput={(params)=><TextField {...params} label='Ort'></TextField>}
     value={value}
     onChange={(event:any,newValue:string|null)=>setValue(newValue)}
     />
 
-<Slider sx={{'&.MuiSlider-root':{color:'grey'}}}></Slider>
+<Slider sx={{...muiComponentStyles.slider}}></Slider>
 
 <p>0 km</p>
 
-<Button variant="contained" sx={{width:'100%',background:'#FF5100'}}><SearchIcon></SearchIcon>Suchen</Button>
+<Button variant="contained" sx={{...muiComponentStyles.button}}><SearchIcon></SearchIcon>Suchen</Button>
     
 
    </div>
