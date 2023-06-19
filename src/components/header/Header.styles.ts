@@ -1,7 +1,9 @@
+
+
 export const styles = {
   tabStyle: {
     textTransform: "none",
-    fontSize: "20px",
+    fontSize: "24px",
     fontFamily: "Georgia,serif",
     color: "#F0956A",
     margin: 0,
@@ -14,18 +16,18 @@ export const styles = {
     },
   },
   appBarStyle: {
-    height: "56px",
+    height: "64px",
     fontFamily: "Georgia,serif",
     color: "#f79163",
-    background: "#045344",
+    background: "#004c45",
     button: {
-      height: "56px",
+      height: "64px",
       "&:hover": {
         background: "#44634e",
         transition: "none",
       },
       "&.Mui-selected": { background: "#304a39", borderRadius: 0 },
-      "&:focus": { background: "#304a39", transition: "none", color: "#ff5100" },
+      // "&:focus": { background: "#304a39", transition: "none", color: "#ff5100" },
     },
   },
   tabsStyle: {
@@ -34,9 +36,10 @@ export const styles = {
     fontFamily: "Georgia,serif",
   },
   typographyStyle: {
-    fontWeight: "bolder",
-    fontFamily: "Lato,sans-serif",
-    fontSize: "36px",
-    color: "#ff5100",
+  fontWeight: "bolder",
+  fontFamily: "Lato,sans-serif",
+  fontSize: "36px",
+  color: "#ff5100",
+  // marginBottom: "10px",
   },
 }

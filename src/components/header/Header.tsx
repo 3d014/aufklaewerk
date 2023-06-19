@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { AppBar, Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { useRouter } from "next/router"
 import SideBar from "../side-bar/SideBar"
@@ -8,12 +8,16 @@ import { pages, pathValues } from "@/src/routes"
 
 const Header = () => {
   const router = useRouter()
-  const [value, setValue] = useState(getPathValue(router.pathname) ?? false)
-  const isMatch = useMediaQuery("(max-width:1000px)")
+  const [tabValue, setTabValue] = useState(getPathValue(router.pathname) ?? false)
+  const isMatch = useMediaQuery("(max-width:1100px)")
 
   function handleTabChange(path: string) {
     router.push(path)
   }
+
+  useEffect(() => {
+    setTabValue(getPathValue(router.pathname) ?? false)
+  }, [router.pathname])
 
   function getPathValue(route: string): number {
     const pathParts = route.split("/")
@@ -34,8 +38,8 @@ const Header = () => {
                 style: { display: "none" },
               }}
               textColor="inherit"
-              value={value}
-              onChange={(e, value) => setValue(value)}
+              value={tabValue}
+              onChange={(e, value) => setTabValue(value)}
             >
               {pages.map((page, index) => {
                 return (
