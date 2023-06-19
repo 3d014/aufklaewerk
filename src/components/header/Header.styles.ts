@@ -36,10 +36,10 @@ export const styles = {
     fontFamily: "Georgia,serif",
   },
   typographyStyle: {
-    fontWeight: "bolder",
-    fontFamily: "Lato,sans-serif",
-    fontSize: "36px",
-    color: "#ff5100",
-    // marginBottom: "10px",
+  fontWeight: "bolder",
+  fontFamily: "Lato,sans-serif",
+  fontSize: "36px",
+  color: "#ff5100",
+  // marginBottom: "10px",
   },
 }
