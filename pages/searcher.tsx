@@ -9,10 +9,10 @@ const Searcher = () => {
       <Box
         sx={{
           display: "flex",
-          position: "fixed",
+          position: "relative",
           width: "100vw",
           justifyContent: "center",
-          zIndex: "-1",
+          
           boxSizing: "border-box",
         }}
       >
@@ -26,7 +26,7 @@ const Searcher = () => {
         <Grid
           container
           spacing={1}
-          sx={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "20px" }}
+          sx={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "20px",}}
         >
           <Grid
             item
@@ -46,6 +46,8 @@ const Searcher = () => {
           </Grid>
         </Grid>
       </Box>
+
+      
     </>
   )
 }
