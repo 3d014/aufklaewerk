@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
-import {styles} from '../side-bar/SideBar.styles'
+import { styles } from "../side-bar/SideBar.styles"
 
 const SideBar = () => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false)
@@ -19,7 +19,7 @@ const SideBar = () => {
       </Drawer>
       <IconButton
         sx={{
-          ...styles.iconButton
+          ...styles.iconButton,
         }}
         onClick={() => {
           setOpenDrawer(!openDrawer)
