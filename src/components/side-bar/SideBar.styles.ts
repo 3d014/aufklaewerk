@@ -1,5 +1,5 @@
 export const styles = {
-    iconButton:{
+  iconButton: {
     color: "#ff5100",
     marginLeft: "auto",
     "&.MuiButtonBase-root:hover": {
@@ -10,6 +10,6 @@ export const styles = {
     },
     "&.MuiButtonBase-root:active": {
       bgcolor: "transparent",
-    },}
-  }
-  
+    },
+  },
+}
