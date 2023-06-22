@@ -1,21 +1,15 @@
 import React from "react"
 import Picker from "../src/components/picker/Picker"
 import Image from "next/image"
-import { Box, Grid } from "@mui/material"
+import { Box, Grid, List, ListItem, ListItemText } from "@mui/material"
+import OfferingCard from "../src/components/offering-card/OfferingCard"
+import CheckIcon from "@mui/icons-material/Check"
+import { Styles } from "../styles/Searcher.styles"
 
 const Searcher = () => {
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          position: "relative",
-          width: "100vw",
-          justifyContent: "center",
-          
-          boxSizing: "border-box",
-        }}
-      >
+      <Box sx={{ ...Styles.firstSectionBox }}>
         <Image
           src="/assets/images/diversityHands.jpg"
           alt="diversity hands"
@@ -23,31 +17,71 @@ const Searcher = () => {
           priority
           style={{ objectFit: "cover", zIndex: "-1" }}
         ></Image>
-        <Grid
-          container
-          spacing={1}
-          sx={{ display: "flex", justifyContent: "center", alignItems: "center", paddingBottom: "20px",}}
-        >
+        <Grid container spacing={1} sx={{ ...Styles.firstSectionGridContainer }}>
           <Grid
             item
             xs={12}
             sx={{
-              display: "flex",
-              fontSize: "40px",
-              justifyContent: "center",
-              alignItems: "center",
-              "@media screen and (max-width:400px)": { fontSize: "30px" },
+              ...Styles.firstSectionSubtitleGrid,
             }}
           >
             <h3 style={{ color: "white", textAlign: "center" }}>mit Vorurteilen aufräumen.</h3>
           </Grid>
-          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Grid item xs={12} sx={{ ...Styles.pickerGrid }}>
             <Picker></Picker>
           </Grid>
         </Grid>
       </Box>
 
-      
+      <Grid container sx={{ ...Styles.secondSectionGridContainer }}>
+        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...Styles.secondSectionGridItem }}>
+          <OfferingCard></OfferingCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...Styles.secondSectionGridItem }}>
+          <OfferingCard></OfferingCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...Styles.secondSectionGridItem }}>
+          <OfferingCard></OfferingCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...Styles.secondSectionGridItem }}>
+          <OfferingCard></OfferingCard>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...Styles.secondSectionGridItem }}>
+          <OfferingCard></OfferingCard>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} sx={{ ...Styles.thirdSectionGridContainer }}>
+        <Grid item xs={12} sm={12} md={6} lg={6} sx={{ ...Styles.thirdSectionImageGrid }}>
+          <Image
+            src="/assets/images/searcherThirdSectionImage.jpg"
+            alt="third Section image"
+            fill
+            style={{ objectFit: "contain", boxShadow: "0.2em 0.8em 0.8em #d3d3d3", borderRadius: "10px" }}
+          ></Image>
+        </Grid>
+        <Grid item xs={12} sm={12} md={5} lg={5} sx={{ ...Styles.thirdSectionListGrid }}>
+          <Box>
+            <h1>Grunde uber Aufklarwerk zu buchen</h1>
+          </Box>
+          <List>
+            <ListItem>
+              <CheckIcon sx={{ ...Styles.checkIcon }}></CheckIcon>
+              <ListItemText>Lokale Angebote in Ihrer Nähe</ListItemText>
+            </ListItem>
+
+            <ListItem>
+              <CheckIcon sx={{ ...Styles.checkIcon }}></CheckIcon>
+              <ListItemText>Transparenz im Buchungsprozess</ListItemText>
+            </ListItem>
+
+            <ListItem>
+              <CheckIcon sx={{ ...Styles.checkIcon }}></CheckIcon>
+              <ListItemText>Angebote in Kategorien, die sie vorher nicht bedacht haben</ListItemText>
+            </ListItem>
+          </List>
+        </Grid>
+      </Grid>
     </>
   )
 }
