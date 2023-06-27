@@ -1,8 +1,8 @@
 import React from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-const Offerrer = () => {
-  return <div>offerer</div>
+const Faq = () => {
+  return <div>Faq page</div>
 }
 
 export async function getStaticProps({ locale }) {
@@ -13,4 +13,4 @@ export async function getStaticProps({ locale }) {
   }
 }
 
-export default Offerrer
+export default Faq

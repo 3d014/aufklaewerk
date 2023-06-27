@@ -1,10 +1,11 @@
 import React from "react"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 export default function Home() {
   return (
     <div>
       <h2>
-        dsa What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+        {`dsa What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
         has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
         and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
         electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
@@ -147,8 +148,16 @@ export default function Home() {
         tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a
         dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem
         Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected
-        humour, or non-characteristic words etc.f
+        humour, or non-characteristic words etc.f`}
       </h2>
     </div>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "footer"])),
+    },
+  }
 }
