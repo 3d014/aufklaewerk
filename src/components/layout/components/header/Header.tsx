@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { AppBar, Tab, Tabs, Toolbar, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { useRouter } from "next/router"
-import SideBar from "../side-bar/SideBar"
+import SideBar from "../../../side-bar/SideBar"
 import "typeface-lato"
 import { styles } from "./Header.styles"
 import { pages, pathValues } from "@/src/routes"

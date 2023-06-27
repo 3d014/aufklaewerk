@@ -5,6 +5,7 @@ import { Box, Grid, List, ListItem, ListItemText } from "@mui/material"
 import OfferingCard from "../src/components/offering-card/OfferingCard"
 import CheckIcon from "@mui/icons-material/Check"
 import { Styles } from "../styles/Searcher.styles"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 const Searcher = () => {
   return (
@@ -85,4 +86,13 @@ const Searcher = () => {
     </>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "footer"])),
+    },
+  }
+}
+
 export default Searcher

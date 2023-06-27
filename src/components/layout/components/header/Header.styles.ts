@@ -1,3 +1,5 @@
+import { HEADER_HEIGHT } from "@/src/components/layout/layout.constants"
+
 export const styles = {
   tabStyle: {
     textTransform: "none",
@@ -14,12 +16,12 @@ export const styles = {
     },
   },
   appBarStyle: {
-    height: "64px",
+    height: `${HEADER_HEIGHT}px`,
     fontFamily: "Georgia,serif",
     color: "#f79163",
     background: "#004c45",
     button: {
-      height: "64px",
+      height: `${HEADER_HEIGHT}px`,
       "&:hover": {
         background: "#44634e",
         transition: "none",
@@ -29,7 +31,7 @@ export const styles = {
     },
   },
   tabsStyle: {
-    height: "64px",
+    height: `${HEADER_HEIGHT}px`,
     marginLeft: "auto",
     fontFamily: "Georgia,serif",
   },
