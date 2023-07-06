@@ -23,10 +23,10 @@ export const ContactForm = () => {
   const isMatch = useMediaQuery("(max-width:640px)")
   const [formData, setFormData] = useState<FormData>(initalFormData)
   const [formErrors, setFormErrors] = useState({
-    nameError: false,
-    emailError: false,
-    organisationError: false,
-    messageError: false,
+    name: false,
+    email: false,
+    organisation: false,
+    message: false,
   })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -36,25 +36,21 @@ export const ContactForm = () => {
   }
 
   const handleSubmit = () => {
-    const { name, email, organisation, message } = formData
-    if (name === "") {
-      setFormErrors((prevState) => ({ ...prevState, nameError: true }))
-    }
-    if (email === "") {
-      setFormErrors((prevState) => ({ ...prevState, emailError: true }))
-    }
-    if (organisation === "") {
-      setFormErrors((prevState) => ({ ...prevState, organisationError: true }))
-    }
-    if (message === "") {
-      setFormErrors((prevState) => ({ ...prevState, messageError: true }))
+    const updatedFormErrors = {
+      ...formErrors,
     }
 
-    let hasErrors = Object.values(formErrors).some((error) => {
-      return error === true
-    })
-    if (!hasErrors) {
-      console.log("proceed submiting")
+    let hasError = false
+    for (const [key, value] of Object.entries(formData)) {
+      if (value === "") {
+        updatedFormErrors[key] = true
+        hasError = true
+      }
+    }
+
+    setFormErrors(updatedFormErrors)
+    if (!hasError) {
+      console.log("success")
     }
   }
 
@@ -91,13 +87,9 @@ export const ContactForm = () => {
             variant="standard"
             label="Name"
             required
-            error={formErrors.nameError}
+            error={formErrors.name}
             helperText={
-              formErrors.nameError ? (
-                "Name is required"
-              ) : (
-                <span style={{ float: "right" }}>{formData.name.length}/40 </span>
-              )
+              formErrors.name ? "Name is required" : <span style={{ float: "right" }}>{formData.name.length}/40 </span>
             }
             inputProps={{ maxLength: 40 }}
             value={formData.name}
@@ -112,10 +104,10 @@ export const ContactForm = () => {
             variant="standard"
             label="E-mail"
             required
-            error={formErrors.emailError}
+            error={formErrors.email}
             value={formData.email}
             onChange={handleChange}
-            helperText={formErrors.emailError ? "E-mail is required" : ""}
+            helperText={formErrors.email ? "E-mail is required" : ""}
             sx={classes.formInputs}
           ></TextField>
         </div>
@@ -126,10 +118,10 @@ export const ContactForm = () => {
             variant="standard"
             label="Organisation"
             required
-            error={formErrors.organisationError}
+            error={formErrors.organisation}
             value={formData.organisation}
             onChange={handleChange}
-            helperText={formErrors.organisationError ? "Organisation is required" : ""}
+            helperText={formErrors.organisation ? "Organisation is required" : ""}
             sx={classes.formInputs}
           ></TextField>
         </div>
@@ -141,13 +133,13 @@ export const ContactForm = () => {
           variant="standard"
           multiline
           required
-          error={formErrors.messageError}
+          error={formErrors.message}
           value={formData.message}
           onChange={handleChange}
           placeholder="Bitte geben Sie hier Ihre Nachricht ein"
           sx={classes.formInputs}
           inputProps={{ sx: { minHeight: "200px" } }}
-          helperText={formErrors.messageError ? "Message is required" : ""}
+          helperText={formErrors.message ? "Message is required" : ""}
         ></TextField>
       </div>
 
