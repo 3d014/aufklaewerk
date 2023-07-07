@@ -1,4 +1,4 @@
-export const Styles = {
+export const classes = {
   firstSectionBox: {
     display: "flex",
     position: "relative",
