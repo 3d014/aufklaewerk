@@ -32,7 +32,7 @@ export const ContactForm = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target
     setFormData((prevState) => ({ ...prevState, [id]: value }))
-    setFormErrors((prevState) => ({ ...prevState, [`${id}Error`]: false }))
+    setFormErrors((prevState) => ({ ...prevState, [id]: false }))
   }
 
   const handleSubmit = () => {
