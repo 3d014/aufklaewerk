@@ -6,8 +6,11 @@ import OfferingCard from "../src/components/offering-card/OfferingCard"
 import CheckIcon from "@mui/icons-material/Check"
 import { classes } from "../styles/Searcher.styles"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { offerings } from "../src/test-data"
 
 const Searcher = () => {
+  console.log(offerings)
+
   return (
     <>
       <Box sx={{ ...classes.firstSectionBox }}>
@@ -35,21 +38,13 @@ const Searcher = () => {
       </Box>
 
       <Grid container sx={{ ...classes.secondSectionGridContainer }}>
-        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...classes.secondSectionGridItem }}>
-          <OfferingCard></OfferingCard>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...classes.secondSectionGridItem }}>
-          <OfferingCard></OfferingCard>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...classes.secondSectionGridItem }}>
-          <OfferingCard></OfferingCard>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...classes.secondSectionGridItem }}>
-          <OfferingCard></OfferingCard>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3} sx={{ ...classes.secondSectionGridItem }}>
-          <OfferingCard></OfferingCard>
-        </Grid>
+        {offerings.map((offer) => {
+          return (
+            <Grid key={offer.id} item xs={12} sm={6} md={4} lg={3} sx={{ ...classes.secondSectionGridItem }}>
+              <OfferingCard offer={offer} />
+            </Grid>
+          )
+        })}
       </Grid>
 
       <Grid container spacing={2} sx={{ ...classes.thirdSectionGridContainer }}>

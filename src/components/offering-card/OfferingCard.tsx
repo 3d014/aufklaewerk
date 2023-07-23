@@ -2,10 +2,18 @@ import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typogr
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import { Styles } from "../offering-card/OfferingCards.styles"
+import React from "react"
+import { OfferDto } from "@/src/models/offer-dto"
 
-const OfferingCard = () => {
+interface OfferingCardProps {
+  offer: OfferDto
+}
+
+const OfferingCard: React.FC<OfferingCardProps> = (props) => {
+  const { offer } = props
+
   return (
-    <Card sx={{ ...Styles.mainCard }}>
+    <Card sx={{ ...Styles.mainCard }} onClick={() => alert("clicked")}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -15,19 +23,18 @@ const OfferingCard = () => {
           sx={{ ...Styles.cardMedia }}
         ></CardMedia>
         <CardContent>
-          <Typography gutterBottom variant="h4" component="div">
-            Title
+          <Typography gutterBottom variant="h4" component="div" noWrap>
+            {offer.name}
           </Typography>
 
           <Typography gutterBottom variant="body2" height={"50px"} sx={{ ...Styles.descriptionTypography }}>
-            Hamburg aus einer anderen Perspektive erleben das ist bei StattTour möglich. Dieser Rollenwechsel lässt dich
-            das maritime Hamburg im Rollstuhl erkunden und dich Barrieren begegnen, die für{" "}
+            {offer.carddescription}
           </Typography>
           <Box>
-            <HandshakeIcon></HandshakeIcon> Organisation
+            <HandshakeIcon></HandshakeIcon> {offer.organame}
           </Box>
           <Box>
-            <LocationOnIcon></LocationOnIcon> Adress
+            <LocationOnIcon></LocationOnIcon> {offer.city}
           </Box>
           <Box sx={{ ...Styles.tagsBox }}>
             <Typography sx={{ ...Styles.tagsTypography }}>Tagsasdf</Typography>
