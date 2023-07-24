@@ -8,13 +8,10 @@ import { pages } from "@/src/routes"
 
 const SideBar = () => {
   const [openDrawer, setOpenDrawer] = useState(false)
-  
 
   const handleLinkClick = () => {
     setOpenDrawer(false)
   }
-
- 
 
   return (
     <>
@@ -22,7 +19,7 @@ const SideBar = () => {
         <List>
           {pages.map((page, index) => (
             <Link href={page.path} passHref key={index}>
-              <ListItemButton  onClick={handleLinkClick}>
+              <ListItemButton onClick={handleLinkClick}>
                 <ListItemIcon>
                   <ListItemText>{page.text}</ListItemText>
                 </ListItemIcon>
