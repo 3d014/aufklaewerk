@@ -3,6 +3,7 @@ import Stack from "@mui/material/Stack"
 import { ChangeEvent, useState } from "react"
 import { classes } from "./ContactForm.styles"
 import { useTranslation } from "next-i18next"
+import React from "react"
 
 interface FormData {
   name: string
