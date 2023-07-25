@@ -5,6 +5,7 @@ import SideBar from "../../../side-bar/SideBar"
 import "typeface-lato"
 import { styles } from "./Header.styles"
 import { pages, pathValues } from "@/src/routes"
+import Link from "next/link"
 
 const Header = () => {
   const router = useRouter()
@@ -28,7 +29,9 @@ const Header = () => {
   return (
     <AppBar sx={{ ...styles.appBarStyle }}>
       <Toolbar>
-        <Typography sx={{ ...styles.typographyStyle }}>Aufklarwerk</Typography>
+        <Link href={"/"} passHref>
+          <Typography sx={{ ...styles.typographyStyle }}>Aufklarwerk</Typography>
+        </Link>
         <>
           {isMatch && <SideBar></SideBar>}
           {!isMatch && (
