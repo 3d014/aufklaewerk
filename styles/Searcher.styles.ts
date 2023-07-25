@@ -1,5 +1,23 @@
-export const classes = {
-  firstSectionBox: {
+import { SxProps, Theme } from "@mui/material"
+import React from "react"
+
+interface Classes{
+  diversityHandsContainer:SxProps<Theme>,
+  diversityHandsContent:SxProps<Theme>,
+  diversityHandsContentTitleWrapper:SxProps<Theme>,
+  diversityHandsContentTitle:React.CSSProperties,
+  pickerContainer:SxProps<Theme>,
+  searchCardsContainer:SxProps<Theme>,
+  cardWrapper:SxProps<Theme>,
+  checkIcon:SxProps<Theme>,
+  diversityHandsImage:React.CSSProperties,
+  searcherProccessImage:React.CSSProperties,
+  searcherReasonsContainer:React.CSSProperties
+  
+}
+
+export const classes:Classes = {
+  diversityHandsContainer: {
     display: "flex",
     position: "relative",
     width: "100vw",
@@ -8,41 +26,32 @@ export const classes = {
     boxSizing: "border-box",
   },
 
-  firstSectionGridContainer: {
+  diversityHandsContent: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     paddingBottom: "20px",
   },
 
-  firstSectionSubtitleGrid: {
+  diversityHandsContentTitleWrapper: {
     display: "flex",
     fontSize: "40px",
     justifyContent: "center",
     alignItems: "center",
     "@media screen and (max-width:400px)": { fontSize: "30px" },
   },
-  pickerGrid: { display: "flex", justifyContent: "center", alignItems: "center" },
 
-  secondSectionGridContainer: { rowGap: "0.5rem" },
-  secondSectionGridItem: { display: "flex", justifyContent: "center", alignItems: "center" },
+  diversityHandsContentTitle:{ color: "white", textAlign: "center" },
+  pickerContainer: { display: "flex", justifyContent: "center", alignItems: "center" },
 
-  thirdSectionGridContainer: {
-    position: "relative",
-    marginTop: "20px",
-    padding: "10px",
-    paddingLeft: "30px",
-    height: "70vh",
-    "@media screen and (max-width:600px)": { height: "40vh" },
-  },
-  thirdSectionImageGrid: { position: "relative", height: "100%" },
-  thirdSectionListGrid: {
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "flex-start",
-  },
+  searchCardsContainer: { rowGap: "0.5rem" },
+  cardWrapper: { display: "flex", justifyContent: "center", alignItems: "center" },
+
+  
 
   checkIcon: { color: "rgb(255, 81, 0)", marginRight: "5px" },
+  diversityHandsImage:{ objectFit: "cover", zIndex: "-1" },
+  searcherProccessImage:{objectFit:'cover',width:'100%',height:'100%'},
+  searcherReasonsContainer:{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}
+  
 }
