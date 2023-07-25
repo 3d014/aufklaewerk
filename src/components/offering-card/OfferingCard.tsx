@@ -4,6 +4,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn"
 import { Styles } from "../offering-card/OfferingCards.styles"
 import React from "react"
 import { OfferDto } from "@/src/models/offer-dto"
+import { useRouter } from "next/router"
 
 interface OfferingCardProps {
   offer: OfferDto
@@ -11,9 +12,10 @@ interface OfferingCardProps {
 
 const OfferingCard: React.FC<OfferingCardProps> = (props) => {
   const { offer } = props
+  const router = useRouter()
 
   return (
-    <Card sx={{ ...Styles.mainCard }} onClick={() => alert("clicked")}>
+    <Card sx={{ ...Styles.mainCard }} onClick={() => router.push(`/offering/${offer.id}`)}>
       <CardActionArea>
         <CardMedia
           component="img"
