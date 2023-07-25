@@ -19,7 +19,7 @@ export default function Home() {
   
   return (
     <div>
-      <Box sx={{ ...diversityHandsBox.firstSectionBox }}>
+      <Box sx={{ ...diversityHandsBox.diversityHandsContainer }}>
         <Image
           src="/assets/images/diversityHands.jpg"
           alt="diversity hands"
@@ -27,17 +27,17 @@ export default function Home() {
           priority
           style={classes.diversityHandImage}
         ></Image>
-        <Grid container spacing={1} sx={{ ...diversityHandsBox.firstSectionGridContainer }}>
+        <Grid container spacing={1} sx={{ ...diversityHandsBox.diversityHandsContent }}>
           <Grid
             item
             xs={12}
             sx={{
-              ...diversityHandsBox.firstSectionSubtitleGrid,
+              ...diversityHandsBox.diversityHandsContentTitle,
             }}
           >
             <h3 style={classes.diversityHandTitle}>{t("diversityHandTitle")}</h3>
           </Grid>
-          <Grid item xs={12} sx={{ ...diversityHandsBox.pickerGrid }}>
+          <Grid item xs={12} sx={{ ...diversityHandsBox.pickerContainer }}>
             <Picker></Picker>
           </Grid>
         </Grid>
