@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react"
 import { offerings } from "../../src/test-data"
 import { OfferDto } from "../../src/models/offer-dto"
 import { Divider, Grid, Typography, useMediaQuery } from "@mui/material"
-import ImageCarousel from "../../src/components/layout/components/image-carousel/ImageCarousel";
-import OfferDetails from "../../src/views/offer-details/OfferDetails";
+import ImageCarousel from "../../src/components/layout/components/image-carousel/ImageCarousel"
+import OfferDetails from "../../src/views/offer-details/OfferDetails"
 
 const classes = {
   content: {
-    width:"100%",
+    width: "100%",
     minHeight: "100vh",
   },
 }
@@ -27,19 +27,15 @@ const OfferingDetails: React.FC = () => {
     setOffer(offer)
   })
 
-  if (offer == null)
-  {
+  if (offer == null) {
     return <></>
   }
 
-
-
   return (
-    <Grid direction="row" alignItems="center" justifyContent="center" container >
-      <Grid item sx={{...classes.content, padding: isMobile ? "10px" : "35px",}}>
+    <Grid direction="row" alignItems="center" justifyContent="center" container>
+      <Grid item sx={{ ...classes.content, padding: isMobile ? "10px" : "35px" }}>
         <ImageCarousel imageUrls={offer.imageUrls} />
         <OfferDetails offer={offer} />
-       
       </Grid>
     </Grid>
   )

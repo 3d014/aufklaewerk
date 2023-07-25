@@ -9,7 +9,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { offerings } from "../src/test-data"
 
 const Searcher = () => {
-
   return (
     <>
       <Box sx={{ ...classes.firstSectionBox }}>

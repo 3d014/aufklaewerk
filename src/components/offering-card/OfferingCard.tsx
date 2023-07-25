@@ -12,7 +12,7 @@ interface OfferingCardProps {
 
 const OfferingCard: React.FC<OfferingCardProps> = (props) => {
   const { offer } = props
-  const router  = useRouter()
+  const router = useRouter()
 
   return (
     <Card sx={{ ...Styles.mainCard }} onClick={() => router.push(`/offering/${offer.id}`)}>
