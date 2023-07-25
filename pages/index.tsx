@@ -7,9 +7,12 @@ import { classes as diversityHandsBox } from "../styles/Searcher.styles"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"
 import Link from "next/link"
+import { classes } from "../styles/Index.styles"
+import { useTranslation } from "next-i18next"
 
 
 export default function Home() {
+  const { t } = useTranslation(["index"])
   const isSmallScreen = useMediaQuery("(max-width:550px)")
   const isMatch = useMediaQuery("(max-width:800px)")
   
@@ -22,7 +25,7 @@ export default function Home() {
           alt="diversity hands"
           fill
           priority
-          style={{ objectFit: "cover", zIndex: "-1" }}
+          style={classes.diversityHandImage}
         ></Image>
         <Grid container spacing={1} sx={{ ...diversityHandsBox.firstSectionGridContainer }}>
           <Grid
@@ -32,7 +35,7 @@ export default function Home() {
               ...diversityHandsBox.firstSectionSubtitleGrid,
             }}
           >
-            <h3 style={{ color: "white", textAlign: "center" }}>mit Vorurteilen aufräumen.</h3>
+            <h3 style={classes.diversityHandTitle}>{t("diversityHandTitle")}</h3>
           </Grid>
           <Grid item xs={12} sx={{ ...diversityHandsBox.pickerGrid }}>
             <Picker></Picker>
@@ -40,68 +43,62 @@ export default function Home() {
         </Grid>
       </Box>
 
-      <div style={isSmallScreen ? { textAlign: "center" } : { textAlign: "left", margin: "50px 0 50px 100px" }}>
-        <p style={{ color: "#004c45" }}>DU MÖCHSTEST HELFEN VORURTEILE ABZUBAUEN?</p>
+      <div style={isSmallScreen ? classes.smallerScreen.soFunktioniertSection : classes.largerScreen.soFunktioniertSection}>
+        <p style={classes.soFunktioniertHeader}>{t("soFunktionertHeader")}</p>
         <h3
           style={
-            isSmallScreen ? { fontWeight: "normal", fontSize: "26px" } : { marginTop: "20px", fontWeight: "normal" }
+            isSmallScreen ?  classes.smallerScreen.soFunktioniert:classes.largerScreen.soFunktioniert
           }
         >
-          So funktioniert's
+          {t("soFunktioniert")}
         </h3>
       </div>
 
       <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "20px",
-        }}
+        style={classes.soFunktioniertMap}
       >
         <img
           src="/assets/images/suchparameter.ec9c079a.svg"
-          style={{ objectFit: "cover", width: "100%", maxWidth: "500px" }}
+          style={classes.soFunktioniertMapImage}
         ></img>
-        <h2 style={{ fontWeight: "normal" }}>Gewünschtes Thema, den Ort und Datum für Begegnungsangebot angeben</h2>
+        <h2 style={classes.soFunktioniertMapText}>{t("soFunktioniertMapText1")}</h2>
         <img
           src="/assets/images/angebot-suchen.2ee1baf7.svg"
-          style={{ objectFit: "cover", width: "100%", maxWidth: "500px" }}
+          style={classes.soFunktioniertMapImage}
         ></img>
-        <h2 style={{ fontWeight: "normal" }}>
-          Aus der Liste von Ergebnisse das Angebot auswählen, das am besten zu deinem Vorhaben passt
+        <h2 style={classes.soFunktioniertMapText}>
+          {t("soFunktioniertMapText2")}
         </h2>
         <img
           src="/assets/images/jetzt-buchen.ed895604.svg"
-          style={{ objectFit: "cover", width: "100%", maxWidth: "500px" }}
+          style={classes.soFunktioniertMapImage}
         ></img>
-        <h2 style={{ fontWeight: "normal" }}>Angebot buchen und den Rest machen wir!</h2>
+        <h2 style={classes.soFunktioniertMapText}>{t("soFunktioniertMapText3")}</h2>
       </div>
 
-      <Grid container direction={isSmallScreen ? "column" : "row"} style={{ margin: "50px 0 50px 0" }}>
+      <Grid container direction={isSmallScreen ? "column" : "row"} style={classes.HelpContainer}>
         <Grid
           item
           container
           spacing={2}
           direction={"row"}
           xs={isSmallScreen ? 12 : 6}
-          style={{ display: "flex", backgroundColor: "#95aba9", justifyContent: "center", alignItems: "center" }}
+          style={classes.help}
         >
           <Grid item xs={9}>
-            <h2 style={{ color: "white", fontWeight: "normal", margin: "0", padding: "5px" }}>
-              Du bist Teil einer sozialen Organisation in Deutschland?
+            <h2 style={classes.helpQuestion}>
+              {t("helpQuestion")}
             </h2>
-            <p style={{ color: "white", fontSize: "1.2em", padding: "5px" }}>
-              Wir helfen dir Dein Angebot für Suchende sichtbar zu machen
+            <p style={classes.helpAnswer}>
+              {t("helpAnswer")}
             </p>
           </Grid>
           <Grid item xs={3}>
             <Link href="/offerer" passHref>
               {isSmallScreen ? (
-                <ArrowDownwardIcon style={{ color: "white" }} fontSize={"large"}></ArrowDownwardIcon>
+                <ArrowDownwardIcon style={classes.helpArrow} fontSize={"large"}></ArrowDownwardIcon>
               ) : (
-                <ArrowForwardIcon style={{ color: "white" }} fontSize={"large"}></ArrowForwardIcon>
+                <ArrowForwardIcon style={classes.helpArrow} fontSize={"large"}></ArrowForwardIcon>
               )}
             </Link>
           </Grid>
@@ -109,187 +106,124 @@ export default function Home() {
         <Grid
           item
           xs={isSmallScreen ? 12 : 6}
-          style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "5px" }}
+          style={classes.moreInfoWrapper}
         >
-          <Link href="/howItWorks" passHref style={{ color: "#95aba9", fontSize: "1.7em", fontWeight: "normal" }}>
-            mehr Infos zum Buchungsablauf gibt's hier
+          <Link href="/howItWorks" passHref style={classes.moreInfo}>
+            {t("moreInfo")}
           </Link>
         </Grid>
       </Grid>
 
       <div>
         <div
-          style={{
-            minHeight: "100px",
-            backgroundColor: "#f0956a",
-            borderRadius: "100% 100% 0 0%",
-            marginBottom: "-5px",
-          }}
+          style={classes.curvedBorder}
         ></div>
-        <div style={{ backgroundColor: "#f0956a", marginBottom: "-5px" }}>
-          <Box
-            style={
-              isMatch
-                ? { display: "flex", flexDirection: "column-reverse", padding: "50px 50px 50px 50px" }
-                : {
-                    height: "100vh",
-                    display: "flex",
-                    flexDirection: "row",
-                    padding: "50px 100px 50px 100px",
-                    alignItems: "center",
-                  }
-            }
-          >
+        <div style={classes.uberAufklaeverkOuterContainer}>
+          <Box style={isMatch? classes.smallerScreen.uberAufklaeverkInner : classes.largerScreen.uberAufklaeverkInner}>
             <Box
               style={
-                isMatch
-                  ? {
-                      padding: "20px 0px 20px 0px",
-                      width: "100%",
-                      backgroundColor: "white",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "space-around",
-                      borderRadius: "10px",
-                    }
-                  : {
-                      borderRadius: "10px",
-                      padding: "20px 20px 20px 20px",
-                      width: "55%",
-                      backgroundColor: "white",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "space-around",
-                    }
+                isMatch ? classes.smallerScreen.uberAufklaeverkInfo : classes.smallerScreen.uberAufklaeverkInfo
               }
             >
               <h4
                 style={
                   isSmallScreen
-                    ? { color: "#ff5100", fontWeight: "normal", margin: "0" }
-                    : { color: "#ff5100", fontWeight: "normal", margin: "0" }
+                    ? classes.smallerScreen.uberAufklaeverkInfoHeader
+                    : classes.largerScreen.uberAufklaeverkInfoHeader
                 }
               >
-                WAS STECKT HINTER AUFKLÄRWERK
+                {t("uberAufklaeverkInfoHeader")}
               </h4>
               <h3
                 style={
                   isSmallScreen
-                    ? { padding: "0", margin: "0", color: "#004c45", fontSize: "30px" }
-                    : { padding: "0", margin: "0", color: "#004c45" }
+                    ? classes.smallerScreen.uberAufklaeverkTitle
+                    :classes.smallerScreen.uberAufklaeverkTitle
                 }
               >
-                Über Aufklärwerk
+                {t("uberAufklaeverkTitle")}
               </h3>
-              <p style={{ padding: "10px", color: "#004c45" }}>
-                Aufklärwerk ist eine Initiative von Studierenden für die gesamte Gesellschaft. Wir sind davon überzeugt,
-                dass durch Begegnungsangebote Hass und Vorurteile in der Gesellschaft abgebaut werden können.
+              <p style={classes.uberAufklaeverkText}>
+               {t("uberAufklaeverkText1")}
               </p>
               <p style={{ padding: "10px", color: "#004c45" }}>
-                Mit unserer Plattform wollen wir die Suche und Buchung von Begegnungsangeboten deutlich einfacher und
-                transparenter gestalten.
+                {t("uberAufklaeverkText2")}
               </p>
               <p style={{ padding: "10px", color: "#004c45" }}>
-                Somit sollen Vorurteile und Diskriminierung in der Gesellschaft abgebaut und die Vorraussetzungen für
-                ein Miteinander geschaffen werden.
+                {t("uberAufklaeverkText3")}
               </p>
 
               <Link href="/aboutUs" passHref>
                 <Button
                   variant="contained"
-                  style={{
-                    backgroundColor: "#004c45",
-                    height: "50px",
-                    fontSize: "0.9em",
-                    marginLeft: "10px",
-                    marginRight: "10px",
-                  }}
+                  style={classes.uberAufklaeverkButton}
                 >
                   {" "}
-                  Mehr zu uns & unserer Vision{" "}
+                  {t("uberAufklaeverkButton")}
+                  {" "}
                 </Button>
               </Link>
             </Box>
-            <Box style={isMatch ? { width: "100%" } : { width: "45%" }}>
+            <Box style={isMatch ? classes.smallerScreen.subwayPairBox : classes.largerScreen.subwayPairBox}>
               <img
                 src="/assets/images/subwayPair.jpg"
                 style={
                   isSmallScreen
-                    ? { width: "100%", objectFit: "cover", borderRadius: "10px" }
-                    : { height: "85vh", width: "100%", objectFit: "cover", borderRadius: "10px" }
+                    ? classes.smallerScreen.subwayPairImage
+                    : classes.largerScreen.subwayPairImage
                 }
               ></img>
             </Box>
           </Box>
         </div>
         <div
-          style={{
-            backgroundImage: "url(/assets/images/wave.svg)",
-            backgroundColor: "#f0956a",
-            backgroundSize: "cover",
-            minHeight: "200px",
-            backgroundRepeat: "no-repeat",
-            width: "100%",
-          }}
+          style={classes.wavyBackground}
         ></div>
 
 
-        <div style={{ backgroundColor: "#95aba9", marginTop: "-5px" }}>
-          <h4 style={{ margin: "0", padding: "0", color: "#004c45", fontWeight: "normal" }}>WARUM AUFKLÄRWERK?</h4>
-          <h3 style={{ color: "white", fontWeight: "normal", marginTop: "0" }}>Wusstest du ...?</h3>
-          <div style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignContent: "space-around",
-              justifyContent: "space-around",
-              marginTop: "50px",
-            }}>
+        <div style={classes.flipCardOuterContainer}>
+          <h4 style={classes.flipCardHeader}>{t("flipCardHeader")}</h4>
+          <h3 style={classes.flipCardQuestion}>{t("flipCardQuestion")}</h3>
+          <div style={classes.flipCardInnerContainer}>
 
-            <Paper className="container" sx={{boxShadow:'none',height:'400px',width:'250px',margin:'50px',backgroundColor:'#95aba9','&:hover > .card':{cursor:'pointer',transform:'rotateY(180deg)'}}}>
-              <Box className="card" sx={{height:'100%',width:'100%',transition:'transform 800ms',position:'relative',transformStyle:'preserve-3d'}}>
-                <Box className="front" sx={{height:'100%',width:'100%',position:'absolute',backfaceVisibility:'hidden'}}>
-                  <img src="/assets/images/blm.jpg" style={{borderRadius:'10px',objectFit:'cover',width:'100%'}}></img>
+            <Paper className="container" sx={classes.flipCard}>
+              <Box className="card" sx={classes.flipCardContext}>
+                <Box className="front" sx={classes.flipCardFront}>
+                  <img src="/assets/images/blm.jpg" style={classes.flipCardFrontImage}></img>
                 </Box>
-                <Box className="back" sx={{height:'100%',width:'100%',backgroundColor:'#95aba9',position:'absolute',transform:'rotateY(180deg)',backfaceVisibility:'hidden',
-             }} >
-                <img src="/assets/images/blm.jpg" style={{borderRadius:'10px',filter:'blur(6px)',opacity:'.6',objectFit:'cover',width:'100%'}}></img>
-                <p style={{color:'white',fontSize:'1.5em',fontWeight:'bolder',
-                position:'absolute',top:'40%',left:'50%',transform:'translate(-50%,-50%)',width:'70%',wordBreak:'break-word'}}>
-                  Dass die Zahl der Anfragen im Zusammenhang mit rassistischer Diskriminierung 2020 ein Drittel (33 Prozent) aller Anfragen ausmachte?
+                <Box className="back" sx={classes.flipCardBack}>
+                <img src="/assets/images/blm.jpg" style={classes.flipCardBackImage}></img>
+                <p style={classes.flipCardBackText}>
+                  {t("flipCardBackText1")}
                 </p></Box>
 
               </Box>
             </Paper>
 
-            <Paper className="container" sx={{boxShadow:'none',height:'400px',width:'250px',margin:'50px',backgroundColor:'#95aba9','&:hover > .card':{cursor:'pointer',transform:'rotateY(180deg)'}}}>
-              <Box className="card" sx={{height:'100%',width:'100%',transition:'transform 800ms',position:'relative',transformStyle:'preserve-3d'}}>
-                <Box className="front" sx={{height:'100%',width:'100%',position:'absolute',backfaceVisibility:'hidden'}}>
-                  <img src="/assets/images/equality.jpg" style={{borderRadius:'10px',objectFit:'cover',width:'100%'}}></img>
+            <Paper className="container" sx={classes.flipCard}>
+              <Box className="card" sx={classes.flipCardContext}>
+                <Box className="front" sx={classes.flipCardFront}>
+                  <img src="/assets/images/equality.jpg" style={classes.flipCardFrontImage}></img>
                 </Box>
-                <Box className="back" sx={{height:'100%',width:'100%',backgroundColor:'#95aba9',position:'absolute',transform:'rotateY(180deg)',backfaceVisibility:'hidden',
-             }} >
-                <img src="/assets/images/equality.jpg" style={{borderRadius:'10px',filter:'blur(6px)',opacity:'.6',objectFit:'cover',width:'100%'}}></img>
-                <p style={{color:'white',fontSize:'1.5em',fontWeight:'bolder',
-                position:'absolute',top:'40%',left:'50%',transform:'translate(-50%,-50%)',width:'70%',wordBreak:'break-word'}}>
-                  Dass über 80 Prozent der Bevölkerung wissen, dass Homo- und Bisexuelle in Deutschland diskriminiert werden?
+                <Box className="back" sx={classes.flipCardBack}>
+                <img src="/assets/images/equality.jpg" style={classes.flipCardBackImage}></img>
+                <p style={classes.flipCardBackText}>
+                {t("flipCardBackText2")}
                 </p></Box>
 
               </Box>
             </Paper>
 
-            <Paper className="container" sx={{boxShadow:'none',height:'400px',width:'250px',margin:'50px',backgroundColor:'#95aba9','&:hover > .card':{cursor:'pointer',transform:'rotateY(180deg)'}}}>
-              <Box className="card" sx={{height:'100%',width:'100%',transition:'transform 800ms',position:'relative',transformStyle:'preserve-3d'}}>
-                <Box className="front" sx={{height:'100%',width:'100%',position:'absolute',backfaceVisibility:'hidden'}}>
-                  <img src="/assets/images/blm.jpg" style={{borderRadius:'10px',objectFit:'cover',width:'100%'}}></img>
+            <Paper className="container" sx={classes.flipCard}>
+              <Box className="card" sx={classes.flipCardContext}>
+                <Box className="front" sx={classes.flipCardFront}>
+                  <img src="/assets/images/blm.jpg" style={classes.flipCardFrontImage}></img>
                 </Box>
-                <Box className="back" sx={{textAlign:'center',height:'100%',width:'100%',backgroundColor:'#95aba9',position:'absolute',transform:'rotateY(180deg)',backfaceVisibility:'hidden',
-             }} >
-                <img src="/assets/images/blm.jpg" style={{borderRadius:'10px',filter:'blur(6px)',opacity:'.6',objectFit:'cover',width:'100%'}}></img>
-                <p style={{color:'white',fontSize:'1.5em',fontWeight:'bolder',
-                position:'absolute',top:'40%',left:'50%',transform:'translate(-50%,-50%)',width:'70%',wordBreak:'break-word'}}>
-Dass in Deutschland ein Fehlbedarf von 386.000 barrierefreier Wohnungen für Rollstuhlfahrer herrscht?                </p></Box>
+                <Box className="back" sx={classes.flipCardBack}>
+                <img src="/assets/images/blm.jpg" style={classes.flipCardBackImage}></img>
+                <p style={classes.flipCardBackText}> 
+                {t("flipCardBackText3")}
+                </p></Box>
 
               </Box>
             </Paper>
@@ -310,7 +244,7 @@ Dass in Deutschland ein Fehlbedarf von 386.000 barrierefreier Wohnungen für Rol
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "footer"])),
+      ...(await serverSideTranslations(locale, ["common", "footer","index"])),
     },
   }
 }
