@@ -1,22 +1,17 @@
-export const Styles = {
-  mainCard: {
-    width: "100%",
-    padding: "20px",
-    border: "2px solid white",
-    margin: "10px",
-    borderRadius: "10px",
-    boxShadow: " 0 0.4em 0.8em #d3d3d3",
+
+
+export const classes={
+  smallerScreen:{
+    card:{width:'280px',minHeight:'650px',margin:'10px'}
   },
-  cardMedia: { borderRadius: "10px" },
-  descriptionTypography: { overflow: "clip", textOverflow: "ellipsis", lineHeight: "normal" },
-  tagsBox: { marginTop: "10px", marginBottom: "10px" },
-  tagsTypography: {
-    display: "inline",
-    background: "rgb(255, 81, 0)",
-    padding: "5px",
-    borderRadius: "10px",
-    marginRight: "10px",
-    color: "white",
-    fontSize: "1em",
-  },
+  largerScreen:{height:'650px',width:'400px', margin:'20px'},
+  cardTitle:{height:'80px'},
+  cardDescription:{height:'100px',textAlign:'left',overflow:'hidden'},
+  addresContainer:{display:'flex',flexDirection:'column',alignItems:'start',height:'50px',marginTop:'20px',justifyContent:'start'},
+  tagsContainer:{display:'flex',marginTop:'20px',flexWrap:'wrap',alignItems:'start',overflow:'hidden'},
+  chip:{ backgroundColor: '#ff5100', color: 'white', maxWidth: '150px', textOverflow: 'ellipsis', margin: '2px' },
+  iconContainer:{display:'flex',flexDirection:'column',alignItems:'start'},
+  iconInnerContainer:{display:"flex",alignItems:'center',justifyContent:'center',gap:'10px',textAlign:'left'},
+  icon:{color:"rgba(0,0,0,.54)"},
+  offerName:{display:'-webkit-box',overflow:'hidden',WebkitBoxOrient:'vertical',WebkitLineClamp:'2',textAlign:'left'}
 }
