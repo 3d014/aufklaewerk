@@ -152,7 +152,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
             <Grid item>
               <h6 style={{ marginBottom: "10px", marginTop: "30px" }}>Themenbereiche</h6>
               {offer.tags.map((tag, index) => {
-                return <Chip key={index} label={tag.label} sx={{ backgroundColor: "#397870", color: "white" }}></Chip>
+                return <Chip key={index} label={tag.label} sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px" }}></Chip>
               })}
             </Grid>
           </Grid>

@@ -2,9 +2,9 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import {GetStaticPaths} from "next";
 import React, {useEffect, useState} from "react";
 import {Grid, useMediaQuery} from "@mui/material";
-import ImageCarousel from "../../src/components/layout/components/image-carousel/ImageCarousel";
-import OfferDetails from "../../src/views/offer-details/OfferDetails";
 import {OrganizationDto} from "../../src/models/organization-dto";
+import {test_org} from "../../src/test-data";
+import OrganizationDetails from "../../src/views/organization-details/OrganizationDetails";
 
 const classes = {
   content: {
@@ -13,7 +13,7 @@ const classes = {
   },
 }
 
-const OrganizationDetails: React.FC = () => {
+const OrgDetails: React.FC = () => {
   const [organization, setOrganization] = useState<OrganizationDto | null>(null)
   const isMobile = useMediaQuery("(max-width:800px)")
 
@@ -22,21 +22,20 @@ const OrganizationDetails: React.FC = () => {
       // api call to fetch details at some point
     })()
 
-    const org = organization
-    setOrganization(org)
-  })
+    const orga = test_org
+    setOrganization(orga)
+  },[])
 
   if (organization == null) {
     return <></>
   }
 
   return (
-    <Grid direction="row" alignItems="center" justifyContent="center" container>
-      <Grid item sx={{ ...classes.content, padding: isMobile ? "10px" : "35px" }}>
-        <img href={}/>
-        <OfferDetails offer={offer} />
-      </Grid>
-    </Grid>
+      <Grid direction="row" alignItems="center" justifyContent="center" container>
+             <Grid item sx={{ ...classes.content, padding: isMobile ? "10px" : "35px" }}>
+               <OrganizationDetails organization={organization} />
+             </Grid>
+        </Grid>
   )
 }
 
@@ -56,4 +55,4 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   }
 }
 
-export default OrganizationDetails
+export default OrgDetails

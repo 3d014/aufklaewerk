@@ -77,11 +77,6 @@ const Searcher = () => {
         })}
       </Box>
 
-
-
-
-
-
       <Grid container spacing={2} direction={isMatch?'column':'row'}>
         <Grid item xs={isMatch?12:6}>
         <img src="/assets/images/searcherThirdSectionImage.jpg" style={classes.searcherProccessImage}></img> 
