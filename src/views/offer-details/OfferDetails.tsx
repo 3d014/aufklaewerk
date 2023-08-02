@@ -1,14 +1,14 @@
 import { OfferDto } from "@/src/models/offer-dto"
-import {Button, Chip, Divider, Grid, SwipeableDrawer, TextareaAutosize, Typography} from "@mui/material"
-import React, {useState} from "react"
+import { Button, Chip, Divider, Grid, SwipeableDrawer, TextareaAutosize, Typography } from "@mui/material"
+import React, { useState } from "react"
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import EmailIcon from "@mui/icons-material/Email"
 import PhoneIcon from "@mui/icons-material/Phone"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import LocalOfferIcon from "@mui/icons-material/LocalOffer"
 import EventIcon from "@mui/icons-material/Event"
-import {useRouter} from "next/router";
-import CloseIcon from '@mui/icons-material/Close';
+import { useRouter } from "next/router"
+import CloseIcon from "@mui/icons-material/Close"
 
 interface OfferDetailsProps {
   offer: OfferDto
@@ -152,7 +152,13 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
             <Grid item>
               <h6 style={{ marginBottom: "10px", marginTop: "30px" }}>Themenbereiche</h6>
               {offer.tags.map((tag, index) => {
-                return <Chip key={index} label={tag.label} sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px" }}></Chip>
+                return (
+                  <Chip
+                    key={index}
+                    label={tag.label}
+                    sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px" }}
+                  ></Chip>
+                )
               })}
             </Grid>
           </Grid>
@@ -202,28 +208,42 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
               {offer.description}
             </Typography>
           </div>
-          <span style={{ fontWeight: "700", textDecoration: "underline", cursor: "pointer" }} onClick={() => setOfferDetailsOpen(true)}>Mehr anzeigen</span>
+          <span
+            style={{ fontWeight: "700", textDecoration: "underline", cursor: "pointer" }}
+            onClick={() => setOfferDetailsOpen(true)}
+          >
+            Mehr anzeigen
+          </span>
           <SwipeableDrawer
             anchor={"bottom"}
             open={offerDetailsOpen}
+            onOpen={() => setOfferDetailsOpen(true)}
+            onClose={() => setOfferDetailsOpen(false)}
           >
-            <Grid sx={{ minHeight: "100vh", padding: "15px", overflowY: "scroll"}} direction={"column"} container>
+            <Grid sx={{ minHeight: "100vh", padding: "15px", overflowY: "scroll" }} direction={"column"} container>
               <Grid item container direction={"row"} justifyContent="space-between" alignItems="start">
                 <Grid item>
-                  <h5 style={{ margin: "0"}}>
-                    Über das Angebot
-                  </h5>
+                  <h5 style={{ margin: "0" }}>Über das Angebot</h5>
                 </Grid>
                 <Grid item>
-                  <CloseIcon sx={{ fontSize: "36px", marginTop: "0", cursor: "pointer" }} onClick={() => setOfferDetailsOpen(false)}/>
+                  <CloseIcon
+                    sx={{ fontSize: "36px", marginTop: "0", cursor: "pointer" }}
+                    onClick={() => setOfferDetailsOpen(false)}
+                  />
                 </Grid>
-              <Grid item>
-                <p style={{ textAlign: "left", whiteSpace: "pre-line", fontFamily: "Lato,sans-serif", fontSize: "16px", lineHeight: "1.5"}}>
-                  {
-                    offer.description
-                  }
-                </p>
-              </Grid>
+                <Grid item>
+                  <p
+                    style={{
+                      textAlign: "left",
+                      whiteSpace: "pre-line",
+                      fontFamily: "Lato,sans-serif",
+                      fontSize: "16px",
+                      lineHeight: "1.5",
+                    }}
+                  >
+                    {offer.description}
+                  </p>
+                </Grid>
               </Grid>
             </Grid>
           </SwipeableDrawer>

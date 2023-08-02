@@ -10,19 +10,27 @@ import { offerings } from "../src/test-data"
 import { useTranslation } from "next-i18next"
 import { OfferDto } from "../src/models/offer-dto"
 import { useEffect, useState } from "react"
-import { useRouter } from 'next/router'
-import { filterByCity, filterByType } from "../utils/offeringFilters";
+import { useRouter } from "next/router"
+import { filterByCity, filterByType } from "../utils/offeringFilters"
+import { ContentfulService } from "../src/contentful-client"
 
 const Searcher = () => {
   const isMatch = useMediaQuery("(max-width:800px)")
   const { t } = useTranslation(["searcher"])
-
   const router = useRouter()
+  const [offerings, setOfferings] = useState<OfferDto[]>([])
+
+  useEffect(() => {
+    void (async () => {
+      const result = await ContentfulService.getOffers()
+      setOfferings(result)
+    })()
+  }, [])
 
   const [filteredOfferings, setFilteredOfferings] = useState(offerings)
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(router.asPath.split('?')[1])
+    const queryParams = new URLSearchParams(router.asPath.split("?")[1])
     const filteredThemes = queryParams.get("filteredThemes")
     const filteredOfferType = queryParams.get("filteredOfferType")
     const filteredLocation = queryParams.get("filteredLocation")
@@ -39,9 +47,7 @@ const Searcher = () => {
 
     filteredOffers = filterByType(filteredOffers, filteredOfferType, filteredLocation)
     setFilteredOfferings(filteredOffers)
-  }, [router.asPath,offerings])
-
-  
+  }, [router.asPath, offerings])
 
   return (
     <>
@@ -69,22 +75,19 @@ const Searcher = () => {
         </Grid>
       </Box>
 
-
-
-      <Box sx={{display:'flex',flexWrap:'wrap',justifyContent:'center',alignContent:'space-around'}}>
-        {filteredOfferings.map((offer,index)=>{
-          return <OfferingCard  key={`offer-${index}`} offer={offer}></OfferingCard>
+      <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "space-around" }}>
+        {filteredOfferings.map((offer, index) => {
+          return <OfferingCard key={`offer-${index}`} offer={offer}></OfferingCard>
         })}
       </Box>
 
-      <Grid container spacing={2} direction={isMatch?'column':'row'}>
-        <Grid item xs={isMatch?12:6}>
-        <img src="/assets/images/searcherThirdSectionImage.jpg" style={classes.searcherProccessImage}></img> 
+      <Grid container spacing={2} direction={isMatch ? "column" : "row"}>
+        <Grid item xs={isMatch ? 12 : 6}>
+          <img src="/assets/images/searcherThirdSectionImage.jpg" style={classes.searcherProccessImage}></img>
         </Grid>
 
-        <Grid item xs={isMatch?12:6} style={classes.searcherReasonsContainer}>
-
-        <List>
+        <Grid item xs={isMatch ? 12 : 6} style={classes.searcherReasonsContainer}>
+          <List>
             <ListItem>
               <CheckIcon sx={{ ...classes.checkIcon }}></CheckIcon>
               <ListItemText>{t("searcherReason1")}</ListItemText>
@@ -100,15 +103,8 @@ const Searcher = () => {
               <ListItemText>{t("searcherReason3")}</ListItemText>
             </ListItem>
           </List>
-
         </Grid>
-        
       </Grid>
-
-
-
-
-
     </>
   )
 }
@@ -116,7 +112,7 @@ const Searcher = () => {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "footer","searcher"])),
+      ...(await serverSideTranslations(locale, ["common", "footer", "searcher"])),
     },
   }
 }

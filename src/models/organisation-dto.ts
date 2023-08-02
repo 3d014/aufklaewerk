@@ -1,4 +1,4 @@
-export interface OrganizationDto {
+export interface OrganisationDto {
   imageUrls: any[]
   name: string
   description: string

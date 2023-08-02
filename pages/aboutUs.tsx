@@ -1,226 +1,38 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import { Box, Button, Grid, useMediaQuery } from "@mui/material"
 import Link from "next/link"
 import { ContactForm } from "../src/components/contact-form/ContactForm"
 import { classes } from "../styles/AboutUs.styles"
-import {createClient} from 'contentful'
+import { MemberDto } from "../src/models/member-dto"
+import { client } from "../src/contentful-client"
 
 const filterOptions = ["Alle", "Gründer", "Marketing", "IT", "PR"]
 
-// interface member {
-//   name: string
-//   id: number
-//   portrait: string
-//   responsibility: {
-//     founder: boolean
-//     marketing: boolean
-//     it: boolean
-//     pr: boolean
-//   }
-//   age: string
-//   subject: string
-//   roles: string
-// }
-// const members: member[] = [
-//   {
-//     name: "Felix",
-//     id: 0,
-//     portrait: "felix.png",
-//     responsibility: {
-//       founder: true,
-//       marketing: false,
-//       it: true,
-//       pr: false,
-//     },
-//     age: "23",
-//     subject: "Wirtschaftsinformatik",
-//     roles: "Mitgründer | IT",
-//   },
-//   {
-//     name: "Johannes",
-//     id: 1,
-//     portrait: "johannes.jpeg",
-//     responsibility: {
-//       founder: true,
-//       marketing: false,
-//       it: false,
-//       pr: true,
-//     },
-//     age: "23",
-//     subject: "Technology Entrepreneurship",
-//     roles: "Mitgründer | Finanzen | UX",
-//   },
-//   {
-//     name: "Jingyi",
-//     id: 2,
-//     portrait: "jingyi.jpeg",
-//     responsibility: {
-//       founder: false,
-//       marketing: false,
-//       it: true,
-//       pr: true,
-//     },
-//     age: "21",
-//     subject: "Wirtschaftsingenieurwesen",
-//     roles: "UX | PR & Marketing",
-//   },
-//   {
-//     name: "Julia",
-//     id: 3,
-//     portrait: "julia.jpeg",
-//     responsibility: {
-//       founder: false,
-//       marketing: true,
-//       it: false,
-//       pr: true,
-//     },
-//     age: "20",
-//     subject: "Wirtschaftsinformatik",
-//     roles: "UX | PR & Marketing",
-//   },
-//   {
-//     name: "Tim",
-//     id: 4,
-//     portrait: "tim.jpeg",
-//     responsibility: {
-//       founder: false,
-//       marketing: false,
-//       it: true,
-//       pr: false,
-//     },
-//     age: "25",
-//     subject: "Wirtschaftsinformatik",
-//     roles: "IT",
-//   },
-//   {
-//     name: "Giuseppe",
-//     id: 5,
-//     portrait: "giuseppe.png",
-//     responsibility: {
-//       founder: false,
-//       marketing: false,
-//       it: false,
-//       pr: true,
-//     },
-//     age: "25",
-//     subject: "Wirtschaftspsychologie",
-//     roles: "PR | Strategie",
-//   },
-//   {
-//     name: "Emilie",
-//     id: 6,
-//     portrait: "emelie.png",
-//     responsibility: {
-//       founder: false,
-//       marketing: true,
-//       it: false,
-//       pr: true,
-//     },
-//     age: "23",
-//     subject: "Bioingenieurswesen",
-//     roles: "PR & Marketing",
-//   },
-//   {
-//     name: "Viola",
-//     id: 7,
-//     portrait: "viola.jpeg",
-//     responsibility: {
-//       founder: false,
-//       marketing: false,
-//       it: true,
-//       pr: false,
-//     },
-//     age: "25",
-//     subject: "Wirtschaftsinformatik",
-//     roles: "UX",
-//   },
-//   {
-//     name: "Manuel",
-//     id: 8,
-//     portrait: "manuel.jpg",
-//     responsibility: {
-//       founder: false,
-//       marketing: false,
-//       it: true,
-//       pr: false,
-//     },
-//     age: "23",
-//     subject: "Wirtschaftsinformatik",
-//     roles: "IT",
-//   },
-//   {
-//     name: "Helena",
-//     id: 9,
-//     portrait: "helena.jpeg",
-//     responsibility: {
-//       founder: false,
-//       marketing: true,
-//       it: false,
-//       pr: false,
-//     },
-//     age: "22",
-//     subject: "Wirtschaftsingenieurwesen",
-//     roles: "Marketing",
-//   },
-//   {
-//     name: "Leonie",
-//     id: 10,
-//     portrait: "leonie.jpeg",
-//     responsibility: {
-//       founder: false,
-//       marketing: true,
-//       it: false,
-//       pr: false,
-//     },
-//     age: "22",
-//     subject: "Wirtschaftsingenieurwesen",
-//     roles: "Marketing",
-//   },
-//   {
-//     name: "Marike",
-//     id: 11,
-//     portrait: "marike.jpeg",
-//     responsibility: {
-//       founder: false,
-//       marketing: true,
-//       it: false,
-//       pr: false,
-//     },
-//     age: "19",
-//     subject: "Wirtschaftsingenieurwesen",
-//     roles: "Marketing",
-//   },
-//   {
-//     name: "Felix",
-//     id: 12,
-//     portrait: "felix_hasse.jpg",
-//     responsibility: {
-//       founder: false,
-//       marketing: false,
-//       it: true,
-//       pr: false,
-//     },
-//     age: "23",
-//     subject: "Wirtschaftsinformatik",
-//     roles: "IT",
-//   },
-// ]
-
-
-
-const AboutUsPage = ({memberItems}) => {
+const AboutUsPage = () => {
   const { t } = useTranslation(["aboutUs"])
   const isMatch = useMediaQuery("(max-width:780px)")
   const isSmallScreen = useMediaQuery("(max-width:450px)")
-  console.log(memberItems[0].fields)
+  const [members, setMembers] = useState<MemberDto[]>([])
   const [activeFilterButton, setActiveFilterButton] = useState<string>("Alle")
 
+  useEffect(() => {
+    void (async () => {
+      const res = await client.getEntries({ content_type: "teamMember" })
+      const membersMap = res.items.map((item) => {
+        return {
+          ...item.fields,
+        }
+      }) as MemberDto[]
+
+      setMembers(membersMap)
+    })()
+  }, [])
 
   const filterMembers = (filterOption: string) => {
     if (filterOption === "Alle") {
-      return memberItems;
+      return members
     }
 
     const filterMap = {
@@ -228,12 +40,11 @@ const AboutUsPage = ({memberItems}) => {
       Marketing: "isMarketing",
       IT: "isIT",
       PR: "isPR",
-    };
+    }
 
-    const filteredMembers = memberItems.filter((member: any) => member.fields[filterMap[filterOption]]);
-    return filteredMembers;
-  };
-  
+    const filteredMembers = members.filter((member: any) => member.fields[filterMap[filterOption]])
+    return filteredMembers
+  }
 
   const filteredMembers = filterMembers(activeFilterButton)
 
@@ -318,16 +129,16 @@ const AboutUsPage = ({memberItems}) => {
               <Box key={index} sx={{ margin: "30px" }}>
                 <Box>
                   <img
-                    src={`/assets/images/members/${member.portrait}`}
+                    // src={`../public/assets/images/members/${member.name.toLowerCase()}.jpg`}
                     style={isSmallScreen ? classes.smallerScreen?.memberImage : classes.largerScreen?.memberImage}
                   ></img>
                   <div style={isSmallScreen ? classes.smallerScreen?.memberInfo : classes.largerScreen?.memberInfo}>
                     <h5 style={classes.memberName}>{member.name}</h5>
-                    <p style={classes.memberAge}> {member.age}</p>
+                    <p style={classes.memberAge}> {member.alter}</p>
                     <p style={isMatch ? classes.smallerScreen?.memberSubject : classes.largerScreen?.memberSubject}>
-                      {member.subject}
+                      {member.studiengang}
                     </p>
-                    <div>{member.roles}</div>
+                    <div>{member.position}</div>
                   </div>
                 </Box>
               </Box>
@@ -361,19 +172,9 @@ const AboutUsPage = ({memberItems}) => {
 }
 
 export async function getStaticProps({ locale }) {
-
-  const client=createClient({
-    space:process.env.CONTENTFUL_SPACE_ID!,
-    accessToken:process.env.CONTENTFUL_ACCESS_KEY!,
-  })
-    const res=await client.getEntries({content_type:'teamMember'})
-    console.log(res)
-
-  return { 
+  return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer", "contact", "aboutUs"])),
-      memberItems:res.items
-
     },
   }
 }

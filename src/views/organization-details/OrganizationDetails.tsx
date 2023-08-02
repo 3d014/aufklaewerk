@@ -1,15 +1,15 @@
-import {Button, Chip, Divider, Grid, SwipeableDrawer, TextareaAutosize, Typography} from "@mui/material"
-import React, {useState} from "react"
+import { Button, Chip, Divider, Grid, SwipeableDrawer, TextareaAutosize, Typography } from "@mui/material"
+import React, { useState } from "react"
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import EmailIcon from "@mui/icons-material/Email"
 import PhoneIcon from "@mui/icons-material/Phone"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import EventIcon from "@mui/icons-material/Event"
-import {useRouter} from "next/router";
-import {OrganizationDto} from "@/src/models/organization-dto";
+import { useRouter } from "next/router"
+import { OrganisationDto } from "@/src/models/organisation-dto"
 
 interface OrganizationDetailsProps {
-  organization: OrganizationDto
+  organization: OrganisationDto
 }
 
 const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
@@ -137,7 +137,13 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
             <Grid item>
               <h6 style={{ marginBottom: "10px", marginTop: "30px" }}>Themenbereiche</h6>
               {organization.tags.map((tag, index) => {
-                return <Chip key={index} label={tag.label} sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px" }}></Chip>
+                return (
+                  <Chip
+                    key={index}
+                    label={tag.label}
+                    sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px", marginTop: "5px" }}
+                  ></Chip>
+                )
               })}
             </Grid>
           </Grid>

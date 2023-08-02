@@ -5,8 +5,8 @@ import { OfferDto } from "../../src/models/offer-dto"
 import { Divider, Grid, Typography, useMediaQuery } from "@mui/material"
 import ImageCarousel from "../../src/components/layout/components/image-carousel/ImageCarousel"
 import OfferDetails from "../../src/views/offer-details/OfferDetails"
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {GetStaticPaths} from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { GetStaticPaths } from "next"
 
 const classes = {
   content: {
@@ -52,12 +52,10 @@ export async function getStaticProps({ locale }) {
 }
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-
   return {
     paths: [], //indicates that no page needs be created at build time
-    fallback: 'blocking' //indicates the type of fallback
+    fallback: "blocking", //indicates the type of fallback
   }
 }
-
 
 export default OfferingDetails

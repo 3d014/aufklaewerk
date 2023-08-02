@@ -1,10 +1,12 @@
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {GetStaticPaths} from "next";
-import React, {useEffect, useState} from "react";
-import {Grid, useMediaQuery} from "@mui/material";
-import {OrganizationDto} from "../../src/models/organization-dto";
-import {test_org} from "../../src/test-data";
-import OrganizationDetails from "../../src/views/organization-details/OrganizationDetails";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { GetStaticPaths } from "next"
+import React, { useEffect, useState } from "react"
+import { Grid, useMediaQuery } from "@mui/material"
+import { OrganisationDto } from "../../src/models/organisation-dto"
+import { test_org } from "../../src/test-data"
+import OrganizationDetails from "../../src/views/organization-details/OrganizationDetails"
+import { client, ContentfulService } from "../../src/contentful-client"
+import { Content } from "next/dist/compiled/@next/font/dist/google"
 
 const classes = {
   content: {
@@ -14,28 +16,22 @@ const classes = {
 }
 
 const OrgDetails: React.FC = () => {
-  const [organization, setOrganization] = useState<OrganizationDto | null>(null)
+  const [organization, setOrganization] = useState<OrganisationDto | null>(test_org)
   const isMobile = useMediaQuery("(max-width:800px)")
 
   useEffect(() => {
     void (async () => {
-      // api call to fetch details at some point
+      const result = await ContentfulService.getOffers()
+      console.log(result)
     })()
-
-    const orga = test_org
-    setOrganization(orga)
-  },[])
-
-  if (organization == null) {
-    return <></>
-  }
+  }, [])
 
   return (
-      <Grid direction="row" alignItems="center" justifyContent="center" container>
-             <Grid item sx={{ ...classes.content, padding: isMobile ? "10px" : "35px" }}>
-               <OrganizationDetails organization={organization} />
-             </Grid>
-        </Grid>
+    <Grid direction="row" alignItems="center" justifyContent="center" container>
+      <Grid item sx={{ ...classes.content, padding: isMobile ? "10px" : "35px" }}>
+        <OrganizationDetails organization={organization} />
+      </Grid>
+    </Grid>
   )
 }
 
@@ -48,10 +44,9 @@ export async function getStaticProps({ locale }) {
 }
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-
   return {
     paths: [], //indicates that no page needs be created at build time
-    fallback: 'blocking' //indicates the type of fallback
+    fallback: "blocking", //indicates the type of fallback
   }
 }
 
