@@ -39,7 +39,7 @@ const Searcher = () => {
 
     filteredOffers = filterByType(filteredOffers, filteredOfferType, filteredLocation)
     setFilteredOfferings(filteredOffers)
-  }, [router.asPath])//treba staviti i offerings u dependesi listu
+  }, [router.asPath,offerings])
 
   
 
