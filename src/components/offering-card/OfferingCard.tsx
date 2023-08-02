@@ -4,6 +4,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn"
 import { classes } from "../offering-card/OfferingCards.styles"
 import React from "react"
 import { OfferDto } from "@/src/models/offer-dto"
+import { useRouter } from "next/router"
 
 interface OfferingCardProps {
   offer: OfferDto
@@ -11,6 +12,7 @@ interface OfferingCardProps {
 
 const OfferingCard: React.FC<OfferingCardProps> = (props) => {
   const { offer } = props
+  const router = useRouter()
 
   const isMatch = useMediaQuery("(max-width:440px)")
 
