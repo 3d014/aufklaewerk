@@ -6,7 +6,6 @@ import { OrganisationDto } from "../../src/models/organisation-dto"
 import { test_org } from "../../src/test-data"
 import OrganizationDetails from "../../src/views/organization-details/OrganizationDetails"
 import { client, ContentfulService } from "../../src/contentful-client"
-import { Content } from "next/dist/compiled/@next/font/dist/google"
 
 const classes = {
   content: {
@@ -29,7 +28,7 @@ const OrgDetails: React.FC = () => {
   return (
     <Grid direction="row" alignItems="center" justifyContent="center" container>
       <Grid item sx={{ ...classes.content, padding: isMobile ? "10px" : "35px" }}>
-        <OrganizationDetails organization={organization} />
+        <Organization Details organization={organization} />
       </Grid>
     </Grid>
   )

@@ -4,67 +4,64 @@ import SearchIcon from "@mui/icons-material/Search"
 import { classes } from "./Picker.styles"
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@mui/icons-material/CheckBox"
-import { offerings } from "@/src/test-data"
-import { Tag } from "@/src/models/offer-dto"
+import {OfferDto, Tag} from "@/src/models/offer-dto"
 import { useRouter } from "next/router"
 
-const getThemeOptions = (): string[] => {
-  let themeOptions: Tag[] = []
-  offerings.forEach((offer) => {
-    const tags = offer.tags
-    tags.forEach((tag) => {
-      const exists = themeOptions.some((existingTag) => existingTag.label === tag.label)
-      if (!exists) {
-        themeOptions.push(tag)
-      }
-    })
-  })
-  let optionsLabel: string[] = themeOptions.map((tag) => tag.label)
-  return optionsLabel
+const getThemeOptions = (offerings: OfferDto[]): string[] => {
+  let themeOptions: string[] = []
+  if(offerings == null)
+  {
+    return []
+  }
+
+  themeOptions = offerings.flatMap(offer => offer.tags)
+
+  let options: string[] = Array.from(new Set(themeOptions))
+  return options
 }
 
-const getOfferingTypes = (): string[] => {
-  let offeringTypes: Tag[] = []
-  offerings.forEach((offer) => {
-    const types = offer.offeringTypes
-    types.forEach((type) => {
-      const exists = offeringTypes.some((existingType) => existingType.label === type.label)
-      if (!exists) {
-        offeringTypes.push(type)
-      }
-    })
-  })
-  let optionsLabel: string[] = offeringTypes.map((type) => type.label)
-  return optionsLabel
+const getOfferingTypes = (offerings: OfferDto[]): string[] => {
+  let offeringTypes: string[] = []
+  if(offerings == null)
+  {
+    return []
+  }
+
+  offeringTypes = offerings.flatMap(offer => offer.offeringType)
+
+  let options: string[] = Array.from(new Set(offeringTypes))
+  return options
 }
 
-const getCityNames = (): string[] => {
+const getCityNames = (offerings: OfferDto[]): string[] => {
   let cityOptions: string[] = []
-
-  offerings.forEach((offer) => {
-    const cityName = offer.city
-    if (cityName && cityName.trim() !== "") {
-      // Exclude undefined and empty strings
-      if (!cityOptions.includes(cityName)) {
-        cityOptions.push(cityName)
-      }
-    }
-  })
+  if(offerings == null)
+  {
+    return []
+  }
 
   return cityOptions
+  // cityOptions = offerings.flatMap(offer => offer.city)
+  // cityOptions = cityOptions.filter(cityName => cityName !== "")
+  //
+  // let options: string[] = Array.from(new Set(cityOptions))
+  // return options
 }
 
-const Picker = () => {
-  const router = useRouter()
+interface PickerProps {
+  offerings: OfferDto[]
+}
 
+const Picker: React.FC<PickerProps> = (props) => {
+  const router = useRouter()
+  const { offerings } = props
   const [theme, setTheme] = useState<string[]>([])
   const [offerType, setOfferType] = useState<string[]>([])
   const [location, setLocation] = useState<string[]>([])
-
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
   const checkedIcon = <CheckBoxIcon fontSize="small" />
   const [sliderValue, setSliderValue] = useState<number>(0)
-
+  console.log(offerings)
   const handleSearch = (theme: string[], offerType: string[], location: string[]) => {
     const filteredThemes = theme.join()
     const filteredOfferType = offerType.join()
@@ -111,6 +108,7 @@ const Picker = () => {
     setOfferType(filteredOfferType ? filteredOfferType.split(",") : [])
     setLocation(filteredLocation ? filteredLocation.split(",") : [])
   }, [router.asPath, setTheme, setOfferType, setLocation])
+
   return (
     <Grid container sx={{ ...classes.mainBox }} spacing={2}>
       <Grid item xs={12}>
@@ -120,7 +118,7 @@ const Picker = () => {
           ListboxProps={{ style: { maxHeight: "300px" } }}
           disableCloseOnSelect={true}
           sx={{ ...classes.autoComplete }}
-          options={getThemeOptions()}
+          options={getThemeOptions(offerings)}
           renderOption={(props, option, { selected }) => (
             <li {...props}>
               <Checkbox icon={icon} checkedIcon={checkedIcon} style={classes.checkbox} checked={selected} />
@@ -141,7 +139,7 @@ const Picker = () => {
           multiple
           disableCloseOnSelect={true}
           sx={{ ...classes.autoComplete }}
-          options={getOfferingTypes()}
+          options={getOfferingTypes(offerings)}
           renderOption={(props, option, { selected }) => (
             <li {...props}>
               <Checkbox icon={icon} checkedIcon={checkedIcon} style={classes.checkbox} checked={selected} />
@@ -164,7 +162,7 @@ const Picker = () => {
           multiple
           disableCloseOnSelect={true}
           sx={{ ...classes.autoComplete }}
-          options={getCityNames()}
+          options={getCityNames(offerings)}
           renderOption={(props, option, { selected }) => (
             <li {...props}>
               <Checkbox icon={icon} checkedIcon={checkedIcon} style={classes.checkbox} checked={selected} />

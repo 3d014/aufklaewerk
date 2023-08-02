@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Box, Button, Grid, Paper, useMediaQuery } from "@mui/material"
 import Image from "next/image"
@@ -9,11 +9,22 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"
 import Link from "next/link"
 import { classes } from "../styles/Index.styles"
 import { useTranslation } from "next-i18next"
+import {OfferDto} from "../src/models/offer-dto";
+import {ContentfulService} from "../src/contentful-client";
 
 export default function Home() {
   const { t } = useTranslation(["index"])
   const isSmallScreen = useMediaQuery("(max-width:550px)")
   const isMatch = useMediaQuery("(max-width:800px)")
+  const [offerings, setOffers] = useState<OfferDto[]>([])
+
+  useEffect(() => {
+    void (async () => {
+      const result = await ContentfulService.getOffers()
+      setOffers(result)
+    })()
+  },[ContentfulService])
+
 
   return (
     <div>
@@ -36,7 +47,7 @@ export default function Home() {
             <h3 style={classes.diversityHandTitle}>{t("diversityHandTitle")}</h3>
           </Grid>
           <Grid item xs={12} sx={{ ...diversityHandsBox.pickerContainer }}>
-            <Picker></Picker>
+            <Picker offerings={offerings}></Picker>
           </Grid>
         </Grid>
       </Box>

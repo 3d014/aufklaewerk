@@ -40,7 +40,7 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
   return (
     <Grid item container direction={"row"} sx={{ marginTop: "0" }}>
       <Grid item xs={6} sx={{ textAlign: "left" }}>
-        <h5 style={{ marginTop: "0", marginBottom: "10px" }}>{organization.name}</h5>
+        <h5 style={{ marginTop: "0", marginBottom: "10px" }}>{organization?.name ?? ""}</h5>
         <Grid container direction={"row"}>
           <Grid
             item

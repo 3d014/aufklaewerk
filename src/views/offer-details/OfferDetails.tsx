@@ -1,6 +1,6 @@
 import { OfferDto } from "@/src/models/offer-dto"
-import { Button, Chip, Divider, Grid, SwipeableDrawer, TextareaAutosize, Typography } from "@mui/material"
-import React, { useState } from "react"
+import {Button, Chip, Divider, Grid, SwipeableDrawer, TextareaAutosize, Typography, useMediaQuery} from "@mui/material"
+import React, {useEffect, useState} from "react"
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import EmailIcon from "@mui/icons-material/Email"
 import PhoneIcon from "@mui/icons-material/Phone"
@@ -9,6 +9,8 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer"
 import EventIcon from "@mui/icons-material/Event"
 import { useRouter } from "next/router"
 import CloseIcon from "@mui/icons-material/Close"
+import {OrganisationDto} from "@/src/models/organisation-dto";
+import {ContentfulService} from "@/src/contentful-client";
 
 interface OfferDetailsProps {
   offer: OfferDto
@@ -17,40 +19,52 @@ interface OfferDetailsProps {
 const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
   const router = useRouter()
   const [offerDetailsOpen, setOfferDetailsOpen] = useState<boolean>(false)
+  const [organisation, setOrganisation] = useState<OrganisationDto | null>(null)
+  const isMatch = useMediaQuery("(max-width:1050px)")
   const { offer } = props
 
-  const setGoogleMapString = (): string => {
-    let googleMapString = "https://www.google.com/maps/embed/v1/place?key=AIzaSyC1eu-m_SHUlD5IZ5JkkvMazRHMAgC02jc&q="
-    if (offer.city != null) {
-      googleMapString += offer.city.replace(" ", "+") + ","
-    }
+  useEffect(() => {
+    void (async () => {
+      const organisations = await ContentfulService.getOrganisations()
+      const org = organisations.find(orga => orga.id === offer.organisation.id)
+      setOrganisation(org)
+    })()
+  },[ContentfulService])
 
-    if (offer.postcode != null) {
-      googleMapString += offer.postcode.replace(" ", "+") + ","
-    }
-
-    if (offer.street != null) {
-      googleMapString += offer.street.replace(" ", "+") + ","
-    }
-
-    if (offer.houseNumber != null) {
-      googleMapString += offer.houseNumber.replace(" ", "+") + ","
-    }
-
-    return googleMapString
-  }
+  // const setGoogleMapString = (): string => {
+  //   let googleMapString = "https://www.google.com/maps/embed/v1/place?key=AIzaSyC1eu-m_SHUlD5IZ5JkkvMazRHMAgC02jc&q="
+  //   if (offer.city != null) {
+  //     googleMapString += offer.city.replace(" ", "+") + ","
+  //   }
+  //
+  //   if (offer.postcode != null) {
+  //     googleMapString += offer.postcode.replace(" ", "+") + ","
+  //   }
+  //
+  //   if (offer.street != null) {
+  //     googleMapString += offer.street.replace(" ", "+") + ","
+  //   }
+  //
+  //   if (offer.houseNumber != null) {
+  //     googleMapString += offer.houseNumber.replace(" ", "+") + ","
+  //   }
+  //
+  //   return googleMapString
+  // }
 
   return (
-    <Grid item container direction={"row"} sx={{ marginTop: "0" }}>
+    <Grid item container direction={isMatch ? "column" : "row"} sx={{ marginTop: "0" }}>
       <Grid item xs={6} sx={{ textAlign: "left" }}>
-        <h5 style={{ marginTop: "0", marginBottom: "10px" }}>{offer.name}</h5>
+        <h5 style={{ marginTop: "0", marginBottom: "10px" }}>{offer.title}</h5>
         <Grid container direction={"row"}>
           <Grid
             item
             container
             direction={"column"}
             xs={6}
-            sx={{ height: "130px" }}
+            sx={{ height: "130px",
+              paddingLeft: isMatch ? "15px" : "0px"
+            }}
             alignItems="flex-start"
             justifyContent="space-around"
           >
@@ -63,7 +77,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 }}
               >
                 <HandshakeIcon sx={{ color: "#FF5100" }} />
-                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.organame}</span>
+                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.organisation.id}</span>
               </div>
             </Grid>
             <Grid item>
@@ -75,7 +89,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 }}
               >
                 <EmailIcon sx={{ color: "#FF5100" }} />
-                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.mailAdress}</span>
+                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.email}</span>
               </div>
             </Grid>
             <Grid item>
@@ -87,7 +101,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 }}
               >
                 <PhoneIcon sx={{ color: "#FF5100" }} />
-                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.telephone}</span>
+                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.phone}</span>
               </div>
             </Grid>
           </Grid>
@@ -122,12 +136,12 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                       marginBottom: "5px",
                     }}
                   >
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.street}</span>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.houseNumber}</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organisation?.street}</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organisation?.houseNumber}</span>
                   </div>
                   <div>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.postcode}</span>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.city}</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organisation?.postcode}</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organisation?.city}</span>
                   </div>
                 </div>
               </div>
@@ -155,7 +169,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 return (
                   <Chip
                     key={index}
-                    label={tag.label}
+                    label={tag}
                     sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px" }}
                   ></Chip>
                 )
@@ -165,11 +179,11 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
           <Grid item container xs={6} direction={"column"} alignItems="flex-start">
             <Grid item>
               <h6 style={{ marginBottom: "10px", marginTop: "30px" }}>Angebotstypen</h6>
-              {offer.offeringTypes.map((tag, index) => {
+              {offer.offeringType.map((tag, index) => {
                 return (
                   <Chip
                     key={index}
-                    label={tag.label}
+                    label={tag}
                     sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px" }}
                   ></Chip>
                 )
@@ -179,9 +193,9 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
         </Grid>
       </Grid>
       <Grid item xs={6}>
-        <div style={{ padding: "20px" }}>
+        <div style={{ padding: isMatch ? "0px" : "20px", marginTop: isMatch ? "30px" : "0px" }}>
           <iframe
-            src={setGoogleMapString()}
+            src={"setGoogleMapString()"}
             width="100%"
             height="300"
             style={{ borderRadius: "10px", border: "0", height: "300px" }}
@@ -190,7 +204,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
         </div>
       </Grid>
       <Divider sx={{ borderBottomWidth: 2, width: "100%", marginTop: "15px" }} />
-      <Grid item container direction={"row"}>
+      <Grid item container direction={isMatch ? "column" : "row"} sx={{ padding: isMatch ? "15px" : "0px"}}>
         <Grid xs={6} item container direction={"column"} alignItems="flex-start">
           <h6 style={{ marginTop: "30px", marginBottom: "10px" }}>Über das Angebot</h6>
           <div style={{ height: "200px", overflow: "hidden" }}>
@@ -248,7 +262,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
             </Grid>
           </SwipeableDrawer>
         </Grid>
-        <Grid xs={6} item container direction={"column"} alignItems="flex-start" sx={{ paddingLeft: "20px" }}>
+        <Grid xs={6} item container direction={"column"} alignItems="flex-start" sx={{ paddingLeft: isMatch ? "0px" : "20px" }}>
           <h6 style={{ marginTop: "30px", marginBottom: "10px" }}>Über die Organisation</h6>
           <div style={{ height: "200px", overflow: "hidden" }}>
             <Typography
@@ -262,12 +276,12 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
               }}
               align={"left"}
             >
-              {offer.short_description}
+              {offer.shortdescription}
             </Typography>
           </div>
           <span
             style={{ fontWeight: "600", textDecoration: "underline", cursor: "pointer" }}
-            onClick={() => router.push(`/organization/${offer.organizationId}`)}
+            onClick={() => router.push(`/organization/${offer.organisation.id}`)}
           >
             Mehr zur Organisation
           </span>
@@ -283,6 +297,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
               color: "white",
               backgroundColor: "#FF5100",
               marginTop: "30px",
+              marginBottom: "10px",
               ":hover": {
                 bgcolor: "#FF5100",
                 color: "white",

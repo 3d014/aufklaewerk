@@ -1,4 +1,5 @@
-import React from "react"
+'use client';
+import React, {useContext} from "react"
 import Picker from "../src/components/picker/Picker"
 import Image from "next/image"
 import { Box, Grid, List, ListItem, ListItemText, useMediaQuery } from "@mui/material"
@@ -6,30 +7,34 @@ import OfferingCard from "../src/components/offering-card/OfferingCard"
 import CheckIcon from "@mui/icons-material/Check"
 import { classes } from "../styles/Searcher.styles"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { offerings } from "../src/test-data"
 import { useTranslation } from "next-i18next"
-import { OfferDto } from "../src/models/offer-dto"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { filterByCity, filterByType } from "../utils/offeringFilters"
-import { ContentfulService } from "../src/contentful-client"
+import { filterByType } from "../utils/offeringFilters"
+import {OffersContext, useOffers} from "../src/contexts/offers-context/OffersContext";
+import {OfferDto} from "../src/models/offer-dto";
+import {ContentfulService} from "../src/contentful-client";
 
 const Searcher = () => {
   const isMatch = useMediaQuery("(max-width:800px)")
   const { t } = useTranslation(["searcher"])
   const router = useRouter()
-  const [offerings, setOfferings] = useState<OfferDto[]>([])
+  const [filteredOfferings, setFilteredOfferings] = useState([])
+  const [offerings, setOffers] = useState<OfferDto[]>([])
 
   useEffect(() => {
     void (async () => {
       const result = await ContentfulService.getOffers()
-      setOfferings(result)
+      setOffers(result)
     })()
-  }, [])
-
-  const [filteredOfferings, setFilteredOfferings] = useState(offerings)
+  },[ContentfulService])
 
   useEffect(() => {
+    if(offerings == null)
+    {
+      return
+    }
+
     const queryParams = new URLSearchParams(router.asPath.split("?")[1])
     const filteredThemes = queryParams.get("filteredThemes")
     const filteredOfferType = queryParams.get("filteredOfferType")
@@ -40,7 +45,7 @@ const Searcher = () => {
     if (filteredThemes) {
       const filteredThemesArray = filteredThemes.split(",")
       filteredOffers = filteredOffers.filter((offer) => {
-        const themeTags = offer.tags.map((tag) => tag.label)
+        const themeTags = offer.tags.map((tag) => tag)
         return themeTags.some((tag) => filteredThemesArray.includes(tag))
       })
     }
@@ -70,7 +75,7 @@ const Searcher = () => {
             <h3 style={classes.diversityHandsContentTitle}>{t("diversityHandsTitle")}</h3>
           </Grid>
           <Grid item xs={12} sx={{ ...classes.pickerContainer }}>
-            <Picker></Picker>
+            <Picker offerings={offerings}></Picker>
           </Grid>
         </Grid>
       </Box>

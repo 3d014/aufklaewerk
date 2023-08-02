@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import Header from "./components/header/Header"
-import { CssBaseline, useMediaQuery } from "@mui/material"
+import { useMediaQuery } from "@mui/material"
 import Footer from "@/src/components/layout/components/footer/Footer"
 import { FOOTER_HEIGHT, HEADER_HEIGHT } from "@/src/components/layout/layout.constants"
 
@@ -17,7 +17,7 @@ const Layout = ({ children }: SiteLayoutProps) => {
       <div
         style={{ marginTop: "64px", minHeight: `calc(100vh - ${HEADER_HEIGHT}px - ${isMatch ? 0 : FOOTER_HEIGHT}px)` }}
       >
-        {children}
+          {children}
       </div>
       <Footer />
     </>
