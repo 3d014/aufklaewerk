@@ -1,7 +1,7 @@
-import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material"
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Typography, useMediaQuery } from "@mui/material"
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
-import { Styles } from "../offering-card/OfferingCards.styles"
+import { classes } from "../offering-card/OfferingCards.styles"
 import React from "react"
 import { OfferDto } from "@/src/models/offer-dto"
 import { useRouter } from "next/router"
@@ -14,43 +14,57 @@ const OfferingCard: React.FC<OfferingCardProps> = (props) => {
   const { offer } = props
   const router = useRouter()
 
+  const isMatch = useMediaQuery("(max-width:440px)")
+
+  const MAX_DISPLAY_TAGS=3
+  const MAX_DISPLAY_TYPES=3
+
+  const displayedTags = offer.tags.slice(0, MAX_DISPLAY_TAGS)
+  const remainingTags = offer.tags.slice(MAX_DISPLAY_TAGS)
+
+  const displayedTypes = offer.offeringTypes.slice(0, MAX_DISPLAY_TYPES);
+  const remainingTypes = offer.offeringTypes.slice(MAX_DISPLAY_TYPES);
+
+
   return (
-    <Card sx={{ ...Styles.mainCard }} onClick={() => router.push(`/offering/${offer.id}`)}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="200"
-          alt="dajba"
-          src="/assets/images/diversityHands.jpg"
-          sx={{ ...Styles.cardMedia }}
-        ></CardMedia>
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="div" noWrap>
-            {offer.name}
-          </Typography>
+   <Card sx={isMatch?classes.smallerScreen.card:classes.largerScreen}>
+    <CardActionArea>
+      <CardMedia component="img" height="200" alt={offer.name} src={offer.imageUrls[0]}></CardMedia>
 
-          <Typography gutterBottom variant="body2" height={"50px"} sx={{ ...Styles.descriptionTypography }}>
-            {offer.carddescription}
-          </Typography>
-          <Box>
-            <HandshakeIcon></HandshakeIcon> {offer.organame}
-          </Box>
-          <Box>
-            <LocationOnIcon></LocationOnIcon> {offer.city}
-          </Box>
-          <Box sx={{ ...Styles.tagsBox }}>
-            <Typography sx={{ ...Styles.tagsTypography }}>Tagsasdf</Typography>
-            <Typography sx={{ ...Styles.tagsTypography }}>Tags</Typography>
-          </Box>
+      <CardContent>
+        <Box sx={classes.cardTitle}>   
+             <Typography  variant="h5" component="div" sx={classes.offerName}>
+                {offer.name}
+              </Typography>
+        </Box>
+        <Typography gutterBottom variant="body1" component="div" sx={classes.cardDescription}>
+          {offer.description}
+        </Typography>
 
-          <Box>
-            <Typography sx={{ ...Styles.tagsTypography }}>Type</Typography>
-            <Typography sx={{ ...Styles.tagsTypography }}>Type</Typography>
-          </Box>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+        <Box sx={classes.addresContainer}>
+          <Box sx={{...classes.iconContainer}}>
+          <Box sx={{...classes.iconInnerContainer}}><HandshakeIcon sx={{...classes.icon}}></HandshakeIcon> {offer.organame}</Box>
+          <Box sx={{...classes.iconInnerContainer}}><LocationOnIcon sx={{...classes.icon}}></LocationOnIcon> {offer.city}</Box>
+          </Box>  
+        </Box>
+
+        <Box sx={classes.tagsContainer}>
+          {displayedTags.map((tag, index) => (
+              <Chip key={`tag-${index}`} label={tag.label} sx={classes.chip} />
+            ))}
+            {displayedTypes.map((type,index) => (
+            <Chip key={`type-${index}`} label={type.label} sx={classes.chip} />
+          ))}
+
+
+        </Box>
+
+       
+      </CardContent>
+    </CardActionArea>
+   </Card>
   )
+
 }
 
 export default OfferingCard

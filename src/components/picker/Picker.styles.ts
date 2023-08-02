@@ -9,6 +9,7 @@ interface Classes{
   slider:SxProps<Theme>,
   button:SxProps<Theme>,
   chip:SxProps<Theme>,
+  cityChip:SxProps<Theme>,
   checkbox:React.CSSProperties,
   optionText:React.CSSProperties
 
@@ -28,6 +29,7 @@ export const classes:Classes = {
   },
   autoComplete: {
     "& .MuiFormLabel-root, & .MuiInputLabel-root": { whiteSpace: "pre-wrap", lineHeight: "1em" },
+    "& .MuiAutocomplete-listbox": { height: '200px' }
   },
   slider: {
     "&.MuiSlider-root": { color: "grey" },
@@ -39,6 +41,10 @@ export const classes:Classes = {
   },
   chip: {
     maxWidth: "50%",
+    backgroundColor: "#e0e0e0",
+  },
+  cityChip: {
+    maxWidth: "80%",
     backgroundColor: "#e0e0e0",
   },
   checkbox:{ marginRight: 8,color:'#004c45' },

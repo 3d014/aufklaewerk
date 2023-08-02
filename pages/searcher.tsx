@@ -8,10 +8,41 @@ import { classes } from "../styles/Searcher.styles"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { offerings } from "../src/test-data"
 import { useTranslation } from "next-i18next"
+import { OfferDto } from "../src/models/offer-dto"
+import { useEffect, useState } from "react"
+import { useRouter } from 'next/router'
+import { filterByCity, filterByType } from "../utils/offeringFilters";
 
 const Searcher = () => {
   const isMatch = useMediaQuery("(max-width:800px)")
   const { t } = useTranslation(["searcher"])
+
+  const router = useRouter()
+
+  const [filteredOfferings, setFilteredOfferings] = useState(offerings)
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(router.asPath.split('?')[1])
+    const filteredThemes = queryParams.get("filteredThemes")
+    const filteredOfferType = queryParams.get("filteredOfferType")
+    const filteredLocation = queryParams.get("filteredLocation")
+
+    let filteredOffers = offerings.map((offer) => offer)
+
+    if (filteredThemes) {
+      const filteredThemesArray = filteredThemes.split(",")
+      filteredOffers = filteredOffers.filter((offer) => {
+        const themeTags = offer.tags.map((tag) => tag.label)
+        return themeTags.some((tag) => filteredThemesArray.includes(tag))
+      })
+    }
+
+    filteredOffers = filterByType(filteredOffers, filteredOfferType, filteredLocation)
+    setFilteredOfferings(filteredOffers)
+  }, [router.asPath,offerings])
+
+  
+
   return (
     <>
       <Box sx={{ ...classes.diversityHandsContainer }}>
@@ -38,19 +69,22 @@ const Searcher = () => {
         </Grid>
       </Box>
 
-      <Grid container sx={{ ...classes.searchCardsContainer }}>
-        {offerings.map((offer) => {
-          return (
-            <Grid key={offer.id} item xs={12} sm={6} md={4} lg={3} sx={{ ...classes.cardWrapper }}>
-              <OfferingCard offer={offer} />
-            </Grid>
-          )
+
+
+      <Box sx={{display:'flex',flexWrap:'wrap',justifyContent:'center',alignContent:'space-around'}}>
+        {filteredOfferings.map((offer,index)=>{
+          return <OfferingCard  key={`offer-${index}`} offer={offer}></OfferingCard>
         })}
-      </Grid>
+      </Box>
+
+
+
+
+
 
       <Grid container spacing={2} direction={isMatch?'column':'row'}>
         <Grid item xs={isMatch?12:6}>
-        <img src="/assets/images/searcherThirdSectionImage.jpg" style={classes.searcherProccessImage}></img>
+        <img src="/assets/images/searcherThirdSectionImage.jpg" style={classes.searcherProccessImage}></img> 
         </Grid>
 
         <Grid item xs={isMatch?12:6} style={classes.searcherReasonsContainer}>
@@ -73,7 +107,7 @@ const Searcher = () => {
           </List>
 
         </Grid>
-
+        
       </Grid>
 
 
