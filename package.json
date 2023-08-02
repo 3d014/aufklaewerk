@@ -17,6 +17,7 @@
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
+    "contentful": "^10.4.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
     "i18next": "^23.2.3",
