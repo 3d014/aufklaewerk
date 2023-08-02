@@ -1,5 +1,34 @@
 import { OfferDto } from "./models/offer-dto"
 
+export const organization = {
+  imageUrls: [],
+  name: "StattTour",
+  description: "Moin! Willkommen bei StattTour. Wir sind ein junges Unternehmen aus Hamburg, welches Barrierefreiheit und Inklusion fördern will. Bei uns sollen diese Themen nicht nur verstanden, sondern erlebt werden. Wie das geht? Durch Begegnungen auf Augenhöhe: durch eine Rollstuhltour durch Hamburg  für FußgängerInnen von RollstuhlfahrerInnen. \n\nBei uns zeigen RollstuhfahrerInnen die Metropole Hamburg aus ihrer Perspektive. Die Besonderheit: Auch FußgängerInnen erleben die Stadt im Rollstuhl! Als Teilnehmender einer unserer StattTouren sitzt du selbst in einem Rollstuhl und erhältst so einen Einblick in das Leben eines Rollstuhlfahrers. Dabei teilen sich immer zwei Teilnehmer im Rahmen eines Buddy-Systems einen Rollstuhl. Unsere Rollstuhltour durch Hamburg wird dir einen völlig neuen Blick auf unsere Stadt ermöglichen!\n\nGemeinsam wird so die Stadt erkundet: Wo sind Barrieren schon bestmöglich abgebaut? Wo müssen sie noch überwunden werden? Im Anschluss an die Tour wird in einem Gespräch mit eurem Guide das Erlebte gemeinsam reflektiert.",
+  tags: [
+    {
+      label: "Behinderungen"
+    },
+    {
+      label: "Barrierefreiheit"
+    },
+    {
+      label: "Stadttour"
+    }
+  ],
+  street: "Am Kaiserkai",
+  houseNumber: "43",
+  postcode: "20457",
+  city: "Hamburg",
+  telefon: "+49 171 3477733",
+  fax: "-",
+  mailAdress: "statt.tour@gmail.com",
+  imageUrl: "../assets/orgaLogos/statttour-logo.png",
+  latitude: 53.551085,
+  longitude: 9.993682,
+  websiteURL: "https://statt-tour.de/",
+  id: "61e987c62e78ee54cd5f06a3"
+}
+
 export const offerings: OfferDto[] = [
   {
     name: "StattTour – Hafencity",

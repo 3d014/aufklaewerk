@@ -1,17 +1,22 @@
 import { OfferDto } from "@/src/models/offer-dto"
-import { Button, Chip, Divider, Grid, TextareaAutosize, Typography } from "@mui/material"
-import React from "react"
+import {Button, Chip, Divider, Grid, SwipeableDrawer, TextareaAutosize, Typography} from "@mui/material"
+import React, {useState} from "react"
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import EmailIcon from "@mui/icons-material/Email"
 import PhoneIcon from "@mui/icons-material/Phone"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import LocalOfferIcon from "@mui/icons-material/LocalOffer"
 import EventIcon from "@mui/icons-material/Event"
+import {useRouter} from "next/router";
+import CloseIcon from '@mui/icons-material/Close';
+
 interface OfferDetailsProps {
   offer: OfferDto
 }
 
 const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
+  const router = useRouter()
+  const [offerDetailsOpen, setOfferDetailsOpen] = useState<boolean>(false)
   const { offer } = props
 
   const setGoogleMapString = (): string => {
@@ -197,7 +202,31 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
               {offer.description}
             </Typography>
           </div>
-          <span style={{ fontWeight: "700", textDecoration: "underline" }}>Mehr anzeigen</span>
+          <span style={{ fontWeight: "700", textDecoration: "underline", cursor: "pointer" }} onClick={() => setOfferDetailsOpen(true)}>Mehr anzeigen</span>
+          <SwipeableDrawer
+            anchor={"bottom"}
+            open={offerDetailsOpen}
+          >
+            <Grid sx={{ minHeight: "100vh", padding: "15px", overflowY: "scroll"}} direction={"column"} container>
+              <Grid item container direction={"row"} justifyContent="space-between" alignItems="start">
+                <Grid item>
+                  <h5 style={{ margin: "0"}}>
+                    Über das Angebot
+                  </h5>
+                </Grid>
+                <Grid item>
+                  <CloseIcon sx={{ fontSize: "36px", marginTop: "0", cursor: "pointer" }} onClick={() => setOfferDetailsOpen(false)}/>
+                </Grid>
+              <Grid item>
+                <p style={{ textAlign: "left", whiteSpace: "pre-line", fontFamily: "Lato,sans-serif", fontSize: "16px", lineHeight: "1.5"}}>
+                  {
+                    offer.description
+                  }
+                </p>
+              </Grid>
+              </Grid>
+            </Grid>
+          </SwipeableDrawer>
         </Grid>
         <Grid xs={6} item container direction={"column"} alignItems="flex-start" sx={{ paddingLeft: "20px" }}>
           <h6 style={{ marginTop: "30px", marginBottom: "10px" }}>Über die Organisation</h6>
@@ -213,10 +242,15 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
               }}
               align={"left"}
             >
-              {offer.description}
+              {offer.short_description}
             </Typography>
           </div>
-          <span style={{ fontWeight: "600", textDecoration: "underline" }}>Mehr zur Organisation</span>
+          <span
+            style={{ fontWeight: "600", textDecoration: "underline", cursor: "pointer" }}
+            onClick={() => router.push(`/organization/${offer.organizationId}`)}
+          >
+            Mehr zur Organisation
+          </span>
         </Grid>
       </Grid>
       <Divider sx={{ borderBottomWidth: 2, width: "100%", marginTop: "35px" }} />
@@ -234,6 +268,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 color: "white",
               },
             }}
+            onClick={() => router.push("/contact")}
           >
             Angebot buchen
           </Button>

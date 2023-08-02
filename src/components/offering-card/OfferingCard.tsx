@@ -28,7 +28,7 @@ const OfferingCard: React.FC<OfferingCardProps> = (props) => {
 
   return (
    <Card sx={isMatch?classes.smallerScreen.card:classes.largerScreen}>
-    <CardActionArea>
+    <CardActionArea onClick={() => router.push(`/offering/${offer.id}`)}>
       <CardMedia component="img" height="200" alt={offer.name} src={offer.imageUrls[0]}></CardMedia>
 
       <CardContent>
