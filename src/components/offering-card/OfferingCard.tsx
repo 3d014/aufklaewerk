@@ -13,11 +13,9 @@ import {
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import { classes } from "../offering-card/OfferingCards.styles"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { OfferDto } from "@/src/models/offer-dto"
 import { useRouter } from "next/router"
-import { OrganisationDto } from "@/src/models/organisation-dto"
-import { ContentfulService } from "@/src/contentful-client"
 
 interface OfferingCardProps {
   offer: OfferDto
@@ -27,7 +25,6 @@ const OfferingCard: React.FC<OfferingCardProps> = (props) => {
   const { offer } = props
   const router = useRouter()
   const isMatch = useMediaQuery("(max-width:440px)")
-  const [organisation, setOrganisation] = useState<OrganisationDto | null>(null)
 
   const MAX_DISPLAY_TAGS = 3
   const MAX_DISPLAY_TYPES = 3
@@ -55,10 +52,10 @@ const OfferingCard: React.FC<OfferingCardProps> = (props) => {
           <Box sx={classes.addresContainer}>
             <Box sx={{ ...classes.iconContainer }}>
               <Box sx={{ ...classes.iconInnerContainer }}>
-                <HandshakeIcon sx={{ ...classes.icon }}></HandshakeIcon> {organisation?.title}
+                <HandshakeIcon sx={{ ...classes.icon }}></HandshakeIcon> {offer.organisation?.title}
               </Box>
               <Box sx={{ ...classes.iconInnerContainer }}>
-                <LocationOnIcon sx={{ ...classes.icon }}></LocationOnIcon> {organisation?.city}
+                <LocationOnIcon sx={{ ...classes.icon }}></LocationOnIcon> org city
               </Box>
             </Box>
           </Box>

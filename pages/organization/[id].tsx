@@ -7,6 +7,7 @@ import OrganizationDetails from "../../src/views/organization-details/Organizati
 import { createClient } from "contentful"
 import { ContentfulService } from "../../src/contentful-client"
 import { useRouter } from "next/router"
+import ImageCarousel from "../../src/components/layout/components/image-carousel/ImageCarousel"
 
 const classes = {
   content: {
@@ -32,6 +33,7 @@ const OrgDetails: React.FC = ({ organisations }: OrgDetailsProps) => {
   return (
     <Grid direction="row" alignItems="center" justifyContent="center" container>
       <Grid item sx={{ ...classes.content, padding: isMobile ? "10px" : "35px" }}>
+        <ImageCarousel imageUrls={organisation?.images.map((img) => img.url) ?? []} />
         <OrganizationDetails organization={organisation} />
       </Grid>
     </Grid>
