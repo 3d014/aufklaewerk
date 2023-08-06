@@ -55,7 +55,7 @@ const OfferingCard: React.FC<OfferingCardProps> = (props) => {
           <Box sx={classes.addresContainer}>
             <Box sx={{ ...classes.iconContainer }}>
               <Box sx={{ ...classes.iconInnerContainer }}>
-                <HandshakeIcon sx={{ ...classes.icon }}></HandshakeIcon> {organisation?.name}
+                <HandshakeIcon sx={{ ...classes.icon }}></HandshakeIcon> {organisation?.title}
               </Box>
               <Box sx={{ ...classes.iconInnerContainer }}>
                 <LocationOnIcon sx={{ ...classes.icon }}></LocationOnIcon> {organisation?.city}

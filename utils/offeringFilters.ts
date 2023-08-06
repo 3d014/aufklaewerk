@@ -16,7 +16,7 @@ export const filterByType = (
   if (filteredOfferType) {
     const filteredTypesArray = filteredOfferType.split(",")
     filteredOffers = filteredOffers.filter((offer) => {
-      const typeTags = offer.offeringTypes.map((type) => type.label)
+      const typeTags = offer.offeringType.map((type) => type)
       return typeTags.some((tag) => filteredTypesArray.includes(tag))
     })
   }

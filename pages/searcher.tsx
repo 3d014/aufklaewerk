@@ -19,7 +19,7 @@ const Searcher = ({ offers }: { offers: OfferDto[] }) => {
   const isMatch = useMediaQuery("(max-width:800px)")
   const { t } = useTranslation(["searcher"])
   const router = useRouter()
-  const [filteredOffers, setFilteredOffers] = useState([])
+  const [filteredOffers, setFilteredOffers] = useState<OfferDto[]>([])
 
   useEffect(() => {
     if (offers == null) {
@@ -107,8 +107,8 @@ const Searcher = ({ offers }: { offers: OfferDto[] }) => {
 
 export async function getStaticProps({ locale }) {
   const _client = createClient({
-    space: process.env.CONTENTFUL_SPACE_ID,
-    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+    space: process.env.CONTENTFUL_SPACE_ID!,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN!,
   })
 
   const service = new ContentfulService(_client)
