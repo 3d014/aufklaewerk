@@ -27,11 +27,13 @@ export class ContentfulService {
     const res = await this._contentfulClient.getEntries({ content_type: "teamMember" })
 
     const data = res.items.map((item) => {
+      const image = item.fields.bild as { fields: { file: { url: string } } }
+
       return {
         ...item.fields,
         id: item.sys.id,
-        imageUrl: item.fields.bild.fields.file.url,
-      }
+        imageUrl: image.fields?.file?.url ?? "",
+      } as MemberDto
     }) as MemberDto[]
 
     return data
@@ -45,12 +47,14 @@ export class ContentfulService {
     const res = await this._contentfulClient.getEntries({ content_type: "angebot" })
 
     const data = res.items.map((item) => {
+      const organisation = item.fields.organisation as { fields: {}; sys: { id: string } }
+
       return {
         ...item.fields,
         id: item.sys.id,
         organisation: {
-          ...(item.fields.organisation?.fields ?? null),
-          id: item.fields.organisation?.sys.id ?? null,
+          ...(organisation?.fields ?? null),
+          id: organisation?.sys.id ?? null,
         },
       }
     }) as OfferDto[]

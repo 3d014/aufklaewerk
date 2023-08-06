@@ -9,4 +9,5 @@ export interface MemberDto {
   isIT: boolean
   isPR: boolean
   imageUrl: string
+  id: string
 }
