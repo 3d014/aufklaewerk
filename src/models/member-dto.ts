@@ -8,4 +8,5 @@ export interface MemberDto {
   isMarketing: boolean
   isIT: boolean
   isPR: boolean
+  imageUrl: string
 }

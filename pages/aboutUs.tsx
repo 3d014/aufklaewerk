@@ -6,29 +6,20 @@ import Link from "next/link"
 import { ContactForm } from "../src/components/contact-form/ContactForm"
 import { classes } from "../styles/AboutUs.styles"
 import { MemberDto } from "../src/models/member-dto"
-import { client } from "../src/contentful-client"
+import { createClient } from "contentful"
+import { ContentfulService } from "../src/contentful-client"
 
 const filterOptions = ["Alle", "Gründer", "Marketing", "IT", "PR"]
 
-const AboutUsPage = () => {
+interface AboutUsProps {
+  members: MemberDto[]
+}
+
+const AboutUsPage = ({ members }: AboutUsProps) => {
   const { t } = useTranslation(["aboutUs"])
   const isMatch = useMediaQuery("(max-width:780px)")
   const isSmallScreen = useMediaQuery("(max-width:450px)")
-  const [members, setMembers] = useState<MemberDto[]>([])
   const [activeFilterButton, setActiveFilterButton] = useState<string>("Alle")
-
-  useEffect(() => {
-    void (async () => {
-      const res = await client.getEntries({ content_type: "teamMember" })
-      const membersMap = res.items.map((item) => {
-        return {
-          ...item.fields,
-        }
-      }) as MemberDto[]
-
-      setMembers(membersMap)
-    })()
-  }, [])
 
   const filterMembers = (filterOption: string) => {
     if (filterOption === "Alle") {
@@ -42,7 +33,7 @@ const AboutUsPage = () => {
       PR: "isPR",
     }
 
-    const filteredMembers = members.filter((member: any) => member.fields[filterMap[filterOption]])
+    const filteredMembers = members.filter((member: any) => member[filterMap[filterOption]])
     return filteredMembers
   }
 
@@ -129,7 +120,7 @@ const AboutUsPage = () => {
               <Box key={index} sx={{ margin: "30px" }}>
                 <Box>
                   <img
-                    // src={`../public/assets/images/members/${member.name.toLowerCase()}.jpg`}
+                    src={member.imageUrl}
                     style={isSmallScreen ? classes.smallerScreen?.memberImage : classes.largerScreen?.memberImage}
                   ></img>
                   <div style={isSmallScreen ? classes.smallerScreen?.memberInfo : classes.largerScreen?.memberInfo}>
@@ -172,9 +163,18 @@ const AboutUsPage = () => {
 }
 
 export async function getStaticProps({ locale }) {
+  const _client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  })
+
+  const service = new ContentfulService(_client)
+  const members = await service.getMembers()
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer", "contact", "aboutUs"])),
+      members,
     },
   }
 }

@@ -1,34 +1,60 @@
-import { createClient } from "contentful"
+import { ContentfulClientApi } from "contentful"
 import { OrganisationDto } from "@/src/models/organisation-dto"
 import { MemberDto } from "@/src/models/member-dto"
 import { OfferDto } from "@/src/models/offer-dto"
 
-export const client = createClient({
-  space: "clymkiuh3imz",
-  accessToken: "chuh4vc1XCSiDDUcZGVdiZBi_pRhNh46Oq4xpBseWDs",
-})
+export class ContentfulService {
+  private readonly _contentfulClient
 
-export const getItems = async <T>(url: string): Promise<T[]> => {
-  const res = await client.getEntries({ content_type: url })
+  constructor(client: ContentfulClientApi<any>) {
+    this._contentfulClient = client
+  }
 
-  const data = res.items.map((item) => {
-    return {
-      ...item.fields,
-      id: item.sys.id,
-    }
-  }) as T[]
+  async getItems<T>(url: string): Promise<T[]> {
+    const res = await this._contentfulClient.getEntries({ content_type: url })
 
-  return data
-}
+    const data = res.items.map((item) => {
+      return {
+        ...item.fields,
+        id: item.sys.id,
+      }
+    }) as T[]
 
-interface ContentfulApi {
-  getMembers: () => Promise<MemberDto[]>
-  getOrganisations: () => Promise<OrganisationDto[]>
-  getOffers: () => Promise<OfferDto[]>
-}
+    return data
+  }
 
-export const ContentfulService: ContentfulApi = {
-  getMembers: () => getItems<MemberDto>("teamMember"),
-  getOrganisations: () => getItems<OrganisationDto>("organisation"),
-  getOffers: () => getItems<OfferDto>("angebot"),
+  async getMembers(): Promise<MemberDto[]> {
+    const res = await this._contentfulClient.getEntries({ content_type: "teamMember" })
+
+    const data = res.items.map((item) => {
+      return {
+        ...item.fields,
+        id: item.sys.id,
+        imageUrl: item.fields.bild.fields.file.url,
+      }
+    }) as MemberDto[]
+
+    return data
+  }
+
+  async getOrganisations(): Promise<OrganisationDto[]> {
+    return this.getItems<OrganisationDto>("organisation")
+  }
+
+  async getOffers(): Promise<OfferDto[]> {
+    const res = await this._contentfulClient.getEntries({ content_type: "angebot" })
+
+    const data = res.items.map((item) => {
+      return {
+        ...item.fields,
+        id: item.sys.id,
+        organisation: {
+          ...(item.fields.organisation?.fields ?? null),
+          id: item.fields.organisation?.sys.id ?? null,
+        },
+      }
+    }) as OfferDto[]
+
+    return data
+  }
 }

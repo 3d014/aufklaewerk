@@ -29,15 +29,6 @@ const OfferingCard: React.FC<OfferingCardProps> = (props) => {
   const isMatch = useMediaQuery("(max-width:440px)")
   const [organisation, setOrganisation] = useState<OrganisationDto | null>(null)
 
-  useEffect(() => {
-    void (async () => {
-      const result = await ContentfulService.getOrganisations()
-      console.log(result)
-      const org = result.find((orga) => orga.id === offer.organisation.id)
-      setOrganisation(org)
-    })()
-  }, [])
-
   const MAX_DISPLAY_TAGS = 3
   const MAX_DISPLAY_TYPES = 3
 

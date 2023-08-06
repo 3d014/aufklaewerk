@@ -1,6 +1,15 @@
 import { OfferDto } from "@/src/models/offer-dto"
-import {Button, Chip, Divider, Grid, SwipeableDrawer, TextareaAutosize, Typography, useMediaQuery} from "@mui/material"
-import React, {useEffect, useState} from "react"
+import {
+  Button,
+  Chip,
+  Divider,
+  Grid,
+  SwipeableDrawer,
+  TextareaAutosize,
+  Typography,
+  useMediaQuery,
+} from "@mui/material"
+import React, { useEffect, useState } from "react"
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import EmailIcon from "@mui/icons-material/Email"
 import PhoneIcon from "@mui/icons-material/Phone"
@@ -9,8 +18,6 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer"
 import EventIcon from "@mui/icons-material/Event"
 import { useRouter } from "next/router"
 import CloseIcon from "@mui/icons-material/Close"
-import {OrganisationDto} from "@/src/models/organisation-dto";
-import {ContentfulService} from "@/src/contentful-client";
 
 interface OfferDetailsProps {
   offer: OfferDto
@@ -19,17 +26,8 @@ interface OfferDetailsProps {
 const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
   const router = useRouter()
   const [offerDetailsOpen, setOfferDetailsOpen] = useState<boolean>(false)
-  const [organisation, setOrganisation] = useState<OrganisationDto | null>(null)
   const isMatch = useMediaQuery("(max-width:1050px)")
   const { offer } = props
-
-  useEffect(() => {
-    void (async () => {
-      const organisations = await ContentfulService.getOrganisations()
-      const org = organisations.find(orga => orga.id === offer.organisation.id)
-      setOrganisation(org)
-    })()
-  },[ContentfulService])
 
   // const setGoogleMapString = (): string => {
   //   let googleMapString = "https://www.google.com/maps/embed/v1/place?key=AIzaSyC1eu-m_SHUlD5IZ5JkkvMazRHMAgC02jc&q="
@@ -62,9 +60,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
             container
             direction={"column"}
             xs={6}
-            sx={{ height: "130px",
-              paddingLeft: isMatch ? "15px" : "0px"
-            }}
+            sx={{ height: "130px", paddingLeft: isMatch ? "15px" : "0px" }}
             alignItems="flex-start"
             justifyContent="space-around"
           >
@@ -136,12 +132,12 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                       marginBottom: "5px",
                     }}
                   >
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organisation?.street}</span>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organisation?.houseNumber}</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>org street</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>org house name</span>
                   </div>
                   <div>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organisation?.postcode}</span>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organisation?.city}</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>org post code</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>org city</span>
                   </div>
                 </div>
               </div>
@@ -170,7 +166,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                   <Chip
                     key={index}
                     label={tag}
-                    sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px" }}
+                    sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px", marginTop: "5px" }}
                   ></Chip>
                 )
               })}
@@ -184,7 +180,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                   <Chip
                     key={index}
                     label={tag}
-                    sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px" }}
+                    sx={{ backgroundColor: "#397870", color: "white", marginRight: "10px", marginTop: "5px" }}
                   ></Chip>
                 )
               })}
@@ -204,7 +200,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
         </div>
       </Grid>
       <Divider sx={{ borderBottomWidth: 2, width: "100%", marginTop: "15px" }} />
-      <Grid item container direction={isMatch ? "column" : "row"} sx={{ padding: isMatch ? "15px" : "0px"}}>
+      <Grid item container direction={isMatch ? "column" : "row"} sx={{ padding: isMatch ? "15px" : "0px" }}>
         <Grid xs={6} item container direction={"column"} alignItems="flex-start">
           <h6 style={{ marginTop: "30px", marginBottom: "10px" }}>Über das Angebot</h6>
           <div style={{ height: "200px", overflow: "hidden" }}>
@@ -262,7 +258,14 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
             </Grid>
           </SwipeableDrawer>
         </Grid>
-        <Grid xs={6} item container direction={"column"} alignItems="flex-start" sx={{ paddingLeft: isMatch ? "0px" : "20px" }}>
+        <Grid
+          xs={6}
+          item
+          container
+          direction={"column"}
+          alignItems="flex-start"
+          sx={{ paddingLeft: isMatch ? "0px" : "20px" }}
+        >
           <h6 style={{ marginTop: "30px", marginBottom: "10px" }}>Über die Organisation</h6>
           <div style={{ height: "200px", overflow: "hidden" }}>
             <Typography

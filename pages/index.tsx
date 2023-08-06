@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, { useState } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Box, Button, Grid, Paper, useMediaQuery } from "@mui/material"
 import Image from "next/image"
@@ -9,22 +9,18 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"
 import Link from "next/link"
 import { classes } from "../styles/Index.styles"
 import { useTranslation } from "next-i18next"
-import {OfferDto} from "../src/models/offer-dto";
-import {ContentfulService} from "../src/contentful-client";
+import { createClient } from "contentful"
+import { ContentfulService } from "../src/contentful-client"
+import { OfferDto } from "../src/models/offer-dto"
 
-export default function Home() {
+interface HomeProps {
+  offers: OfferDto[]
+}
+
+export default function Home({ offers }: HomeProps) {
   const { t } = useTranslation(["index"])
   const isSmallScreen = useMediaQuery("(max-width:550px)")
   const isMatch = useMediaQuery("(max-width:800px)")
-  const [offerings, setOffers] = useState<OfferDto[]>([])
-
-  useEffect(() => {
-    void (async () => {
-      const result = await ContentfulService.getOffers()
-      setOffers(result)
-    })()
-  },[ContentfulService])
-
 
   return (
     <div>
@@ -47,7 +43,7 @@ export default function Home() {
             <h3 style={classes.diversityHandTitle}>{t("diversityHandTitle")}</h3>
           </Grid>
           <Grid item xs={12} sx={{ ...diversityHandsBox.pickerContainer }}>
-            <Picker offerings={offerings}></Picker>
+            <Picker offers={offers}></Picker>
           </Grid>
         </Grid>
       </Box>
@@ -186,9 +182,18 @@ export default function Home() {
 }
 
 export async function getStaticProps({ locale }) {
+  const _client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  })
+
+  const service = new ContentfulService(_client)
+  const offers = await service.getOffers()
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer", "index"])),
+      offers,
     },
   }
 }

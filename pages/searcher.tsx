@@ -1,5 +1,5 @@
-'use client';
-import React, {useContext} from "react"
+"use client"
+import React from "react"
 import Picker from "../src/components/picker/Picker"
 import Image from "next/image"
 import { Box, Grid, List, ListItem, ListItemText, useMediaQuery } from "@mui/material"
@@ -11,27 +11,18 @@ import { useTranslation } from "next-i18next"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { filterByType } from "../utils/offeringFilters"
-import {OffersContext, useOffers} from "../src/contexts/offers-context/OffersContext";
-import {OfferDto} from "../src/models/offer-dto";
-import {ContentfulService} from "../src/contentful-client";
+import { OfferDto } from "../src/models/offer-dto"
+import { createClient } from "contentful"
+import { ContentfulService } from "../src/contentful-client"
 
-const Searcher = () => {
+const Searcher = ({ offers }: { offers: OfferDto[] }) => {
   const isMatch = useMediaQuery("(max-width:800px)")
   const { t } = useTranslation(["searcher"])
   const router = useRouter()
-  const [filteredOfferings, setFilteredOfferings] = useState([])
-  const [offerings, setOffers] = useState<OfferDto[]>([])
+  const [filteredOffers, setFilteredOffers] = useState([])
 
   useEffect(() => {
-    void (async () => {
-      const result = await ContentfulService.getOffers()
-      setOffers(result)
-    })()
-  },[ContentfulService])
-
-  useEffect(() => {
-    if(offerings == null)
-    {
+    if (offers == null) {
       return
     }
 
@@ -40,7 +31,7 @@ const Searcher = () => {
     const filteredOfferType = queryParams.get("filteredOfferType")
     const filteredLocation = queryParams.get("filteredLocation")
 
-    let filteredOffers = offerings.map((offer) => offer)
+    let filteredOffers = offers.map((offer) => offer)
 
     if (filteredThemes) {
       const filteredThemesArray = filteredThemes.split(",")
@@ -51,8 +42,8 @@ const Searcher = () => {
     }
 
     filteredOffers = filterByType(filteredOffers, filteredOfferType, filteredLocation)
-    setFilteredOfferings(filteredOffers)
-  }, [router.asPath, offerings])
+    setFilteredOffers(filteredOffers)
+  }, [router.asPath, offers])
 
   return (
     <>
@@ -75,13 +66,13 @@ const Searcher = () => {
             <h3 style={classes.diversityHandsContentTitle}>{t("diversityHandsTitle")}</h3>
           </Grid>
           <Grid item xs={12} sx={{ ...classes.pickerContainer }}>
-            <Picker offerings={offerings}></Picker>
+            <Picker offers={offers}></Picker>
           </Grid>
         </Grid>
       </Box>
 
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "space-around" }}>
-        {filteredOfferings.map((offer, index) => {
+        {filteredOffers.map((offer, index) => {
           return <OfferingCard key={`offer-${index}`} offer={offer}></OfferingCard>
         })}
       </Box>
@@ -115,9 +106,18 @@ const Searcher = () => {
 }
 
 export async function getStaticProps({ locale }) {
+  const _client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  })
+
+  const service = new ContentfulService(_client)
+  const offers = await service.getOffers()
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer", "searcher"])),
+      offers,
     },
   }
 }

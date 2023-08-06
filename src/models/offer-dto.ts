@@ -1,3 +1,5 @@
+import { OrganisationDto } from "@/src/models/organisation-dto"
+
 export interface OfferDto {
   id: string
   title: string
@@ -7,9 +9,7 @@ export interface OfferDto {
   online: boolean
   offline: boolean
   tags: string[]
-  organisation: {
-    id: string
-  }
+  organisation: OrganisationDto
   offeringType: string[]
   targetgroup: string[]
   groupsize: string[]

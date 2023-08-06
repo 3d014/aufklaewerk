@@ -1,35 +1,21 @@
-'use client';
-import {OfferDto} from "@/src/models/offer-dto";
-import {createContext, PropsWithChildren, useContext, useEffect, useState} from "react";
-import {ContentfulService, getItems} from "@/src/contentful-client";
-import React from 'react'
-
+"use client"
+import { OfferDto } from "@/src/models/offer-dto"
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react"
+import React from "react"
 
 interface OffersContextValue {
   offers: OfferDto[]
 }
 
 const initialContextValue: OffersContextValue = {
-  offers: []
+  offers: [],
 }
 
 export const OffersContext = createContext<OffersContextValue>(initialContextValue)
-export const useOffers = ():OffersContextValue => useContext(OffersContext)
+export const useOffers = (): OffersContextValue => useContext(OffersContext)
 
 export const OffersContextProvider: React.FC<PropsWithChildren<{}>> = (props) => {
   const [offers, setOffers] = useState<OfferDto[]>([])
 
-  useEffect(() => {
-    void (async () => {
-      const result = await ContentfulService.getOffers()
-      setOffers(result)
-    })()
-  },[ContentfulService])
-
-  console.log(offers)
-  return (
-    <OffersContext.Provider value={{ offers: offers }}>
-      {props.children}
-    </OffersContext.Provider>
-  )
+  return <OffersContext.Provider value={{ offers: offers }}>{props.children}</OffersContext.Provider>
 }

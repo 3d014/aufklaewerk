@@ -16,31 +16,35 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
   const router = useRouter()
   const { organization } = props
 
-  const setGoogleMapString = (): string => {
-    let googleMapString = "https://www.google.com/maps/embed/v1/place?key=AIzaSyC1eu-m_SHUlD5IZ5JkkvMazRHMAgC02jc&q="
-    if (organization.city != null) {
-      googleMapString += organization.city.replace(" ", "+") + ","
-    }
+  // const setGoogleMapString = (): string => {
+  //   let googleMapString = "https://www.google.com/maps/embed/v1/place?key=AIzaSyC1eu-m_SHUlD5IZ5JkkvMazRHMAgC02jc&q="
+  //   if (organization.city != null) {
+  //     googleMapString += organization.city.replace(" ", "+") + ","
+  //   }
+  //
+  //   if (organization.postcode != null) {
+  //     googleMapString += organization.postcode.replace(" ", "+") + ","
+  //   }
+  //
+  //   if (organization.street != null) {
+  //     googleMapString += organization.street.replace(" ", "+") + ","
+  //   }
+  //
+  //   if (organization.houseNumber != null) {
+  //     googleMapString += organization.houseNumber.replace(" ", "+") + ","
+  //   }
+  //
+  //   return googleMapString
+  // }
 
-    if (organization.postcode != null) {
-      googleMapString += organization.postcode.replace(" ", "+") + ","
-    }
-
-    if (organization.street != null) {
-      googleMapString += organization.street.replace(" ", "+") + ","
-    }
-
-    if (organization.houseNumber != null) {
-      googleMapString += organization.houseNumber.replace(" ", "+") + ","
-    }
-
-    return googleMapString
+  if (organization == null) {
+    return <></>
   }
 
   return (
     <Grid item container direction={"row"} sx={{ marginTop: "0" }}>
       <Grid item xs={6} sx={{ textAlign: "left" }}>
-        <h5 style={{ marginTop: "0", marginBottom: "10px" }}>{organization?.name ?? ""}</h5>
+        <h5 style={{ marginTop: "0", marginBottom: "10px" }}>{organization?.title ?? ""}</h5>
         <Grid container direction={"row"}>
           <Grid
             item
@@ -60,7 +64,7 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
                 }}
               >
                 <EmailIcon sx={{ color: "#FF5100" }} />
-                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.mailAdress}</span>
+                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.email}</span>
               </div>
             </Grid>
             <Grid item>
@@ -72,7 +76,7 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
                 }}
               >
                 <PhoneIcon sx={{ color: "#FF5100" }} />
-                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.houseNumber}</span>
+                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>Home number</span>
               </div>
             </Grid>
             <Grid item>
@@ -84,7 +88,7 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
                 }}
               >
                 <HandshakeIcon sx={{ color: "#FF5100" }} />
-                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.websiteURL}</span>
+                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.website}</span>
               </div>
             </Grid>
           </Grid>
@@ -119,12 +123,12 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
                       marginBottom: "5px",
                     }}
                   >
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.street}</span>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.houseNumber}</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>street</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>house number</span>
                   </div>
                   <div>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.postcode}</span>
-                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{organization.city}</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>postcode</span>
+                    <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>city</span>
                   </div>
                 </div>
               </div>
@@ -152,7 +156,7 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = (props) => {
       <Grid item xs={6}>
         <div style={{ padding: "20px" }}>
           <iframe
-            src={setGoogleMapString()}
+            // src={setGoogleMapString()}
             width="100%"
             height="300"
             style={{ borderRadius: "10px", border: "0", height: "300px" }}

@@ -17,7 +17,7 @@ const Layout = ({ children }: SiteLayoutProps) => {
       <div
         style={{ marginTop: "64px", minHeight: `calc(100vh - ${HEADER_HEIGHT}px - ${isMatch ? 0 : FOOTER_HEIGHT}px)` }}
       >
-          {children}
+        {children}
       </div>
       <Footer />
     </>
