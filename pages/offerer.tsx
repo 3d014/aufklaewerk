@@ -1,11 +1,20 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Grid, useMediaQuery } from "@mui/material"
 import { ContactForm } from "../src/components/contact-form/ContactForm"
 import { classes } from "../styles/Offerer.styles"
 import { useTranslation } from "next-i18next"
+import { createClient } from "contentful"
+import { ContentfulService } from "../src/contentful-service"
+import { ContactPage } from "@/src/models/contact-page"
+import OffererPage from "@/src/models/offerrer-page"
 
-const Offerrer = () => {
+interface OffererPageProps {
+  contactPage: ContactPage
+  offererPage: OffererPage
+}
+
+const Offerrer = ({ contactPage, offererPage }: OffererPageProps) => {
   const isMatch = useMediaQuery("(max-width:750px)")
   const { t } = useTranslation(["offerer"])
 
@@ -14,7 +23,7 @@ const Offerrer = () => {
       <Grid container sx={classes.upperSectionContainer} direction={isMatch ? "column" : "row"}>
         <Grid item xs={isMatch ? 12 : 5}>
           <img
-            src="/assets/images/fistBump.jpg"
+            src={offererPage.bigPictureLeftUrl}
             alt="fist Bump"
             style={isMatch ? classes.smallerScreen?.fistBumpImg : classes.largerScreen?.fistBumpImg}
           ></img>
@@ -22,13 +31,12 @@ const Offerrer = () => {
         <Grid item xs={isMatch ? 12 : 7}>
           <section>
             <h1 style={isMatch ? classes.smallerScreen?.upperSectionTitle : classes.largerScreen?.upperSectionTitle}>
-              {t("upperSectionTitle")}
+              {offererPage.anbieterWerdenHeadline}
             </h1>
-            <p style={classes.upperSectionText}>{t("upperSectionText1")}</p>
-            <p style={classes.upperSectionText}>{t("upperSectionText2")}</p>
+            <p style={classes.upperSectionText}>{offererPage.text}</p>
           </section>
           <div>
-            <img src="/assets/images/offererPath.png" alt="offerer path" style={classes.offererPathImg}></img>
+            <img src={offererPage.imageUrl} alt="offerer path" style={classes.offererPathImg}></img>
           </div>
         </Grid>
       </Grid>
@@ -38,16 +46,27 @@ const Offerrer = () => {
       </div>
 
       <div style={classes.contactFormWrapper}>
-        <ContactForm></ContactForm>
+        <ContactForm page={contactPage}></ContactForm>
       </div>
     </>
   )
 }
 
-export async function getStaticProps({ locale }) {
+export async function getStaticProps({ locale }: any) {
+  const _client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID ?? "",
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN ?? "",
+  })
+
+  const service = new ContentfulService(_client)
+  const contactPage = await service.getContactPage()
+  const offererPage = await service.getOffererPage()
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer", "contact", "offerer"])),
+      contactPage,
+      offererPage,
     },
   }
 }

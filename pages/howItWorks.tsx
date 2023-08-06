@@ -1,13 +1,15 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import Link from "next/link"
 import { useTranslation } from "next-i18next"
 import { Box, Grid, useMediaQuery } from "@mui/material"
 import { classes } from "../styles/HowItWorks.styles"
+import { createClient } from "contentful"
 
 const HowItWorks = () => {
   const { t } = useTranslation(["howItWorks"])
   const isMatch = useMediaQuery("(max-width:550px)")
+
   return (
     <Box sx={{ dispaly: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
       <Box sx={isMatch ? classes.smallerScreen.titleContainer : classes.largerScreen.titleContainer}>
