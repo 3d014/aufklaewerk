@@ -1,10 +1,12 @@
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import {GetStaticPaths} from "next";
-import React, {useEffect, useState} from "react";
-import {Grid, useMediaQuery} from "@mui/material";
-import ImageCarousel from "../../src/components/layout/components/image-carousel/ImageCarousel";
-import OfferDetails from "../../src/views/offer-details/OfferDetails";
-import {OrganizationDto} from "../../src/models/organization-dto";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { GetStaticPaths } from "next"
+import React, { useEffect, useState } from "react"
+import { Grid, useMediaQuery } from "@mui/material"
+import { OrganisationDto } from "../../src/models/organisation-dto"
+import OrganizationDetails from "../../src/views/organization-details/OrganizationDetails"
+import { createClient } from "contentful"
+import { ContentfulService } from "../../src/contentful-client"
+import { useRouter } from "next/router"
 
 const classes = {
   content: {
@@ -13,47 +15,51 @@ const classes = {
   },
 }
 
-const OrganizationDetails: React.FC = () => {
-  const [organization, setOrganization] = useState<OrganizationDto | null>(null)
+interface OrgDetailsProps {
+  organisations: OrganisationDto[]
+}
+
+const OrgDetails: React.FC = ({ organisations }: OrgDetailsProps) => {
+  const router = useRouter()
   const isMobile = useMediaQuery("(max-width:800px)")
+  const [organisation, setOrganisation] = useState<OrganisationDto | null>(null)
 
   useEffect(() => {
-    void (async () => {
-      // api call to fetch details at some point
-    })()
-
-    const org = organization
-    setOrganization(org)
-  })
-
-  if (organization == null) {
-    return <></>
-  }
+    const organisation = organisations.find((org) => org.id === router.query.id)
+    setOrganisation(organisation)
+  }, [])
 
   return (
     <Grid direction="row" alignItems="center" justifyContent="center" container>
       <Grid item sx={{ ...classes.content, padding: isMobile ? "10px" : "35px" }}>
-        <img href={}/>
-        <OfferDetails offer={offer} />
+        <OrganizationDetails organization={organisation} />
       </Grid>
     </Grid>
   )
 }
 
 export async function getStaticProps({ locale }) {
+  const _client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  })
+
+  const service = new ContentfulService(_client)
+  const organisations = await service.getOrganisations()
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer"])),
+      organisations,
     },
   }
 }
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-
   return {
     paths: [], //indicates that no page needs be created at build time
-    fallback: 'blocking' //indicates the type of fallback
+    fallback: "blocking", //indicates the type of fallback
   }
 }
 
-export default OrganizationDetails
+export default OrgDetails

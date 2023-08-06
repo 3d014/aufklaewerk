@@ -8,7 +8,7 @@ import { useTranslation } from "next-i18next"
 const Offerrer = () => {
   const isMatch = useMediaQuery("(max-width:750px)")
   const { t } = useTranslation(["offerer"])
-  
+
   return (
     <>
       <Grid container sx={classes.upperSectionContainer} direction={isMatch ? "column" : "row"}>
@@ -22,14 +22,10 @@ const Offerrer = () => {
         <Grid item xs={isMatch ? 12 : 7}>
           <section>
             <h1 style={isMatch ? classes.smallerScreen?.upperSectionTitle : classes.largerScreen?.upperSectionTitle}>
-             {t("upperSectionTitle")}
+              {t("upperSectionTitle")}
             </h1>
-            <p style={classes.upperSectionText}>
-            {t("upperSectionText1")}
-            </p>
-            <p style={classes.upperSectionText}>
-            {t("upperSectionText2")}
-            </p>
+            <p style={classes.upperSectionText}>{t("upperSectionText1")}</p>
+            <p style={classes.upperSectionText}>{t("upperSectionText2")}</p>
           </section>
           <div>
             <img src="/assets/images/offererPath.png" alt="offerer path" style={classes.offererPathImg}></img>
@@ -38,7 +34,7 @@ const Offerrer = () => {
       </Grid>
 
       <div style={isMatch ? classes.smallerScreen?.middleSectionTitle : classes.largerScreen?.middleSectionTitle}>
-      {t("middleSectionTitle")}
+        {t("middleSectionTitle")}
       </div>
 
       <div style={classes.contactFormWrapper}>
@@ -51,7 +47,7 @@ const Offerrer = () => {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "footer", "contact","offerer"])),
+      ...(await serverSideTranslations(locale, ["common", "footer", "contact", "offerer"])),
     },
   }
 }

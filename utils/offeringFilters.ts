@@ -8,7 +8,11 @@ export const filterByCity = (filteredOffers: OfferDto[], filteredLocation: strin
   }
 }
 
-export const filterByType = (filteredOffers: OfferDto[], filteredOfferType: string | null, filteredLocation: string | null): OfferDto[] => {
+export const filterByType = (
+  filteredOffers: OfferDto[],
+  filteredOfferType: string | null,
+  filteredLocation: string | null
+): OfferDto[] => {
   if (filteredOfferType) {
     const filteredTypesArray = filteredOfferType.split(",")
     filteredOffers = filteredOffers.filter((offer) => {

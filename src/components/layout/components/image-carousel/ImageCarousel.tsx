@@ -19,7 +19,6 @@ const ImageCarousel: React.FC<ImageCarouselProps> = (props) => {
   const { imageUrls } = props
   const isMobile = useMediaQuery("(max-width:800px)")
 
-  console.log(isMobile)
   return (
     <Carousel
       indicators={true}

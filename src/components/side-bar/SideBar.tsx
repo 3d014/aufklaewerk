@@ -15,13 +15,22 @@ const SideBar = () => {
 
   return (
     <>
-      <Drawer open={openDrawer}  PaperProps={{sx:{width:'50%',backgroundColor:"#004c45"}}} onClose={() => setOpenDrawer(false)}>
-        <List >
+      <Drawer
+        open={openDrawer}
+        PaperProps={{ sx: { width: "50%", backgroundColor: "#004c45" } }}
+        onClose={() => setOpenDrawer(false)}
+      >
+        <List>
           {pages.map((page, index) => (
             <Link href={page.path} passHref key={index}>
               <ListItemButton onClick={handleLinkClick}>
                 <ListItemIcon>
-                  <ListItemText primaryTypographyProps={{fontSize: '18px',fontWeight:'500'}} sx={{color:'#ff5100',fontWeight:"bolder"}}>{page.text}</ListItemText>
+                  <ListItemText
+                    primaryTypographyProps={{ fontSize: "18px", fontWeight: "500" }}
+                    sx={{ color: "#ff5100", fontWeight: "bolder" }}
+                  >
+                    {page.text}
+                  </ListItemText>
                 </ListItemIcon>
               </ListItemButton>
             </Link>
