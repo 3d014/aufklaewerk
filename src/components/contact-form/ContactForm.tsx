@@ -44,7 +44,7 @@ export const ContactForm = () => {
     let hasError = false
     for (const [key, value] of Object.entries(formData)) {
       if (value === "") {
-        updatedFormErrors[key] = true
+        updatedFormErrors[key as keyof FormData] = true
         hasError = true
       }
     }

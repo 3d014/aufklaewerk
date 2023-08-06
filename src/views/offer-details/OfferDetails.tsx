@@ -1,15 +1,6 @@
 import { OfferDto } from "@/src/models/offer-dto"
-import {
-  Button,
-  Chip,
-  Divider,
-  Grid,
-  SwipeableDrawer,
-  TextareaAutosize,
-  Typography,
-  useMediaQuery,
-} from "@mui/material"
-import React, { useEffect, useState } from "react"
+import { Button, Chip, Divider, Grid, SwipeableDrawer, Typography, useMediaQuery } from "@mui/material"
+import React, { useState } from "react"
 import HandshakeIcon from "@mui/icons-material/Handshake"
 import EmailIcon from "@mui/icons-material/Email"
 import PhoneIcon from "@mui/icons-material/Phone"
@@ -29,32 +20,17 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
   const isMatch = useMediaQuery("(max-width:1050px)")
   const { offer } = props
 
-  // const setGoogleMapString = (): string => {
-  //   let googleMapString = "https://www.google.com/maps/embed/v1/place?key=AIzaSyC1eu-m_SHUlD5IZ5JkkvMazRHMAgC02jc&q="
-  //   if (offer.city != null) {
-  //     googleMapString += offer.city.replace(" ", "+") + ","
-  //   }
-  //
-  //   if (offer.postcode != null) {
-  //     googleMapString += offer.postcode.replace(" ", "+") + ","
-  //   }
-  //
-  //   if (offer.street != null) {
-  //     googleMapString += offer.street.replace(" ", "+") + ","
-  //   }
-  //
-  //   if (offer.houseNumber != null) {
-  //     googleMapString += offer.houseNumber.replace(" ", "+") + ","
-  //   }
-  //
-  //   return googleMapString
-  // }
+  const setGoogleMapString = (): string => {
+    let googleMapString = `https://maps.google.com?q=${offer.location.lat},${offer.location.lon}&output=embed`
+
+    return googleMapString
+  }
 
   return (
     <Grid item container direction={isMatch ? "column" : "row"} sx={{ marginTop: "0" }}>
       <Grid item xs={6} sx={{ textAlign: "left" }}>
         <h5 style={{ marginTop: "0", marginBottom: "10px" }}>{offer.title}</h5>
-        <Grid container direction={"row"}>
+        <Grid container direction={isMatch ? "column" : "row"}>
           <Grid
             item
             container
@@ -69,11 +45,12 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  flexWrap: "wrap",
+                  flexWrap: "nowrap",
+                  marginTop: isMatch ? "5px" : "0px",
                 }}
               >
                 <HandshakeIcon sx={{ color: "#FF5100" }} />
-                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.organisation.id}</span>
+                <span style={{ paddingLeft: "10px", fontSize: "1rem" }}>{offer.organisation.title}</span>
               </div>
             </Grid>
             <Grid item>
@@ -81,7 +58,8 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  flexWrap: "wrap",
+                  flexWrap: "nowrap",
+                  marginTop: isMatch ? "5px" : "0px",
                 }}
               >
                 <EmailIcon sx={{ color: "#FF5100" }} />
@@ -93,7 +71,8 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  flexWrap: "wrap",
+                  flexWrap: "nowrap",
+                  marginTop: isMatch ? "5px" : "0px",
                 }}
               >
                 <PhoneIcon sx={{ color: "#FF5100" }} />
@@ -106,7 +85,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
             container
             direction={"column"}
             xs={6}
-            sx={{ height: "130px" }}
+            sx={{ height: "130px", paddingLeft: "15px" }}
             alignItems="flex-start"
             justifyContent="space-around"
           >
@@ -115,7 +94,8 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  flexWrap: "wrap",
+                  flexWrap: "nowrap",
+                  marginTop: isMatch ? "5px" : "0px",
                 }}
               >
                 <LocationOnIcon sx={{ color: "#FF5100" }} />
@@ -123,8 +103,9 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                   style={{
                     display: "flex",
                     alignItems: "left",
-                    flexWrap: "wrap",
+                    flexWrap: "nowrap",
                     flexDirection: "column",
+                    marginTop: isMatch ? "5px" : "0px",
                   }}
                 >
                   <div
@@ -147,7 +128,8 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  flexWrap: "wrap",
+                  flexWrap: "nowrap",
+                  marginTop: isMatch ? "5px" : "0px",
                 }}
               >
                 <LocalOfferIcon sx={{ color: "#FF5100" }} />
@@ -191,7 +173,7 @@ const OfferDetails: React.FC<OfferDetailsProps> = (props) => {
       <Grid item xs={6}>
         <div style={{ padding: isMatch ? "0px" : "20px", marginTop: isMatch ? "30px" : "0px" }}>
           <iframe
-            src={"setGoogleMapString()"}
+            src={setGoogleMapString()}
             width="100%"
             height="300"
             style={{ borderRadius: "10px", border: "0", height: "300px" }}
