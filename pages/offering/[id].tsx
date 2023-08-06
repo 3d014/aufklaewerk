@@ -7,7 +7,7 @@ import OfferDetails from "../../src/views/offer-details/OfferDetails"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { GetStaticPaths } from "next"
 import { createClient } from "contentful"
-import { ContentfulService } from "../../src/contentful-client"
+import { ContentfulService } from "../../src/contentful-service"
 
 const classes = {
   content: {

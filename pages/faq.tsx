@@ -1,8 +1,11 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add"
 import { useTranslation } from "next-i18next"
+import { createClient } from "contentful"
+import { ContentfulService } from "../src/contentful-service"
+import FaqPage from "../src/models/faq-page"
 
 interface Question {
   id: number
@@ -69,15 +72,18 @@ const classes = {
   },
 }
 
-const Faq = () => {
-  const [expanded, setExpanded] = useState<number | null>()
-  const { t } = useTranslation(["faq"])
+interface FaqPageProps {
+  page: FaqPage
+}
+
+const Faq = ({ page }: FaqPageProps) => {
+  const [expanded, setExpanded] = useState<string | null>()
 
   return (
     <Grid direction="row" alignItems="center" justifyContent="center" container>
       <Grid item sx={classes.content}>
-        <h1 style={{ marginBottom: "10px" }}>{t("title")}</h1>
-        {questions.map((q) => {
+        <h1 style={{ marginBottom: "10px" }}>{page?.faqHeadline}</h1>
+        {page?.questions?.map((q) => {
           return (
             <Accordion
               key={q.id}
@@ -109,9 +115,18 @@ const Faq = () => {
 }
 
 export async function getStaticProps({ locale }) {
+  const _client = createClient({
+    space: process.env.CONTENTFUL_SPACE_ID,
+    accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  })
+
+  const service = new ContentfulService(_client)
+  const page = await service.getFaqPage()
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer", "faq"])),
+      page,
     },
   }
 }

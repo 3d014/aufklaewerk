@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Box, Button, Grid, Paper, useMediaQuery } from "@mui/material"
 import Image from "next/image"
@@ -10,8 +10,9 @@ import Link from "next/link"
 import { classes } from "../styles/Index.styles"
 import { useTranslation } from "next-i18next"
 import { createClient } from "contentful"
-import { ContentfulService } from "../src/contentful-client"
+import { ContentfulService } from "../src/contentful-service"
 import { OfferDto } from "../src/models/offer-dto"
+import FaqPage from "../src/models/faq-page"
 
 interface HomeProps {
   offers: OfferDto[]

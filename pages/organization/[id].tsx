@@ -5,7 +5,7 @@ import { Grid, useMediaQuery } from "@mui/material"
 import { OrganisationDto } from "../../src/models/organisation-dto"
 import OrganizationDetails from "../../src/views/organization-details/OrganizationDetails"
 import { createClient } from "contentful"
-import { ContentfulService } from "../../src/contentful-client"
+import { ContentfulService } from "../../src/contentful-service"
 import { useRouter } from "next/router"
 import ImageCarousel from "../../src/components/layout/components/image-carousel/ImageCarousel"
 

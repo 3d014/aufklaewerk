@@ -128,10 +128,11 @@ export const classes: Classes = {
     fontFamily: "Lato, sans-serif",
     color: "#176817",
     padding: "0% 15% 5% 15% ",
+    whiteSpace: "pre-line",
   },
   huggingPeopleImage: { width: "100%", objectFit: "cover", height: "100%", borderRadius: "10px" },
   orangeBoxTopLeftText: { color: "#ff5100", textAlign: "left", margin: "0" },
-  orangeBoxParagraph: { color: "white", textAlign: "left" },
+  orangeBoxParagraph: { color: "white", textAlign: "left", whiteSpace: "pre-line" },
   orangeBoxList: { textAlign: "left", color: "white", fontWeight: "bolder", marginTop: "20px", paddingLeft: "5%" },
   orangeBoxButton: { minWidth: "72%", padding: "1em 1em 1em 1em", backgroundColor: "#ff5100", fontSize: "1em" },
   memberContainerTopPart: {
