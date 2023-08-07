@@ -100,7 +100,7 @@ export const classes: Classes = {
     subwayPairBox: { width: "45%" },
     subwayPairImage: { height: "85vh", width: "100%", objectFit: "cover", borderRadius: "10px" },
   },
-  soFunktioniertHeader: { color: "#004c45" },
+  soFunktioniertHeader: { color: "#004c45", textTransform: "uppercase" },
   soFunktioniertMap: {
     display: "flex",
     flexDirection: "column",

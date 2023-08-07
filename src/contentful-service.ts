@@ -7,6 +7,19 @@ import { ContactPage } from "@/src/models/contact-page"
 import Offerer from "@/pages/offerer"
 import OffererPage from "@/src/models/offerrer-page"
 import { AboutUsPage } from "@/src/models/about-us"
+import { CallToAction, LandingPage, UeberAkw } from "@/src/models/landing-page"
+
+interface Picture {
+  fields: {
+    file: {
+      url: string
+    }
+  }
+}
+
+const getImgUrlFromObj = (obj: Picture): string => {
+  return obj.fields.file.url
+}
 
 export class ContentfulService {
   private readonly _contentfulClient
@@ -32,12 +45,12 @@ export class ContentfulService {
     const res = await this._contentfulClient.getEntries({ content_type: "teamMember" })
 
     const data = res.items.map((item) => {
-      const image = item.fields.bild as { fields: { file: { url: string } } }
+      const image = item.fields.bild as Picture
 
       return {
         ...item.fields,
         id: item.sys.id,
-        imageUrl: image.fields?.file?.url ?? "",
+        imageUrl: getImgUrlFromObj(image),
       } as MemberDto
     }) as MemberDto[]
 
@@ -109,14 +122,14 @@ export class ContentfulService {
     const res = await this._contentfulClient.getEntries({ content_type: "anbieterWerden" })
 
     const data = res.items.map((item) => {
-      const image = item.fields.picture as { fields: { file: { url: string } } }
-      const bigPicture = item.fields.bigPictureLeft as { fields: { file: { url: string } } }
+      const image = item.fields.picture as Picture
+      const bigPicture = item.fields.bigPictureLeft as Picture
 
       return {
         ...item.fields,
         id: item.sys.id,
-        imageUrl: image.fields?.file?.url,
-        bigPictureLeftUrl: bigPicture.fields.file?.url,
+        imageUrl: getImgUrlFromObj(image),
+        bigPictureLeftUrl: getImgUrlFromObj(bigPicture),
       }
     })[0] as any
 
@@ -127,11 +140,11 @@ export class ContentfulService {
     const res = await this._contentfulClient.getEntries({ content_type: "wieFunktionierts" })
 
     const data = res.items.map((item) => {
-      const image = item.fields.howItWorksExplanation as { fields: { file: { url: string } } }
+      const image = item.fields.howItWorksExplanation as Picture
 
       return {
         ...item.fields,
-        howItWorksExplanationImageUrl: image.fields.file.url,
+        howItWorksExplanationImageUrl: getImgUrlFromObj(image),
       }
     })[0] as HowItWorksPage
 
@@ -143,21 +156,60 @@ export class ContentfulService {
 
     const data = res.items.map((item) => {
       const celebrationOfHumanityPart = item.fields.celebrationOfHumanity as { fields: any }
-      const image = item.fields.picture as { fields: { file: { url: string } } }
+      const image = item.fields.picture as Picture
       const teamSection = item.fields.teamSection as { fields: any }
 
       return {
         ...item.fields,
         celebrationOfHumanity: {
           ...celebrationOfHumanityPart?.fields,
-          pictureUrl: celebrationOfHumanityPart?.fields.picture.fields.file.url,
+          pictureUrl: getImgUrlFromObj(celebrationOfHumanityPart.fields.picture),
         },
-        pictureUrl: image.fields.file.url,
+        pictureUrl: getImgUrlFromObj(image),
         teamSection: {
           ...teamSection.fields,
         },
       }
     })[0] as AboutUsPage
+
+    return data
+  }
+
+  async getLandingPage(): Promise<LandingPage> {
+    const res = await this._contentfulClient.getEntries({ content_type: "pageLandingPage" })
+
+    const data = res.items.map((item) => {
+      const callToAction = item.fields.callToAction as {
+        fields: { boxHeadline: string; boxText: string; linkText: string }
+      }
+      const kacheln = item.fields.kacheln as { fields: { kacheltext: string; kachelbild: Picture } }[]
+      const ueberAkw = item.fields.ueberAkw as { fields: { picture: Picture } }
+      const wusstestDu = item.fields.wusstestDu as { fields: { text: string; picture: Picture } }[]
+
+      return {
+        ...(item.fields as unknown as LandingPage),
+        callToAction: {
+          ...callToAction.fields,
+        },
+        kacheln: kacheln.map((kachel) => {
+          return {
+            kachelText: kachel.fields.kacheltext,
+            kachelImgUrl: getImgUrlFromObj(kachel.fields.kachelbild),
+          }
+        }),
+        ueberAkw: {
+          ...(ueberAkw.fields as unknown as UeberAkw),
+          pictureUrl: getImgUrlFromObj(ueberAkw.fields.picture),
+        },
+        wusstestDu: wusstestDu.map((item) => {
+          return {
+            ...item.fields,
+            text: item.fields.text,
+            pictureUrl: getImgUrlFromObj(item.fields.picture),
+          }
+        }),
+      }
+    })[0] as LandingPage
 
     return data
   }

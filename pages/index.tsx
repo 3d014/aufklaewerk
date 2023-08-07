@@ -13,12 +13,14 @@ import { createClient } from "contentful"
 import { ContentfulService } from "../src/contentful-service"
 import { OfferDto } from "../src/models/offer-dto"
 import FaqPage from "../src/models/faq-page"
+import { LandingPage } from "../src/models/landing-page"
 
 interface HomeProps {
   offers: OfferDto[]
+  landingPage: LandingPage
 }
 
-export default function Home({ offers }: HomeProps) {
+export default function Home({ offers, landingPage }: HomeProps) {
   const { t } = useTranslation(["index"])
   const isSmallScreen = useMediaQuery("(max-width:550px)")
   const isMatch = useMediaQuery("(max-width:800px)")
@@ -41,7 +43,7 @@ export default function Home({ offers }: HomeProps) {
               ...diversityHandsBox.diversityHandsContentTitle,
             }}
           >
-            <h3 style={classes.diversityHandTitle}>{t("diversityHandTitle")}</h3>
+            <h3 style={classes.diversityHandTitle}>{landingPage.heroSectionHeadline}</h3>
           </Grid>
           <Grid item xs={12} sx={{ ...diversityHandsBox.pickerContainer }}>
             <Picker offers={offers}></Picker>
@@ -52,26 +54,28 @@ export default function Home({ offers }: HomeProps) {
       <div
         style={isSmallScreen ? classes.smallerScreen.soFunktioniertSection : classes.largerScreen.soFunktioniertSection}
       >
-        <p style={classes.soFunktioniertHeader}>{t("soFunktionertHeader")}</p>
+        <p style={classes.soFunktioniertHeader}>{landingPage.subheadline}</p>
         <h3 style={isSmallScreen ? classes.smallerScreen.soFunktioniert : classes.largerScreen.soFunktioniert}>
-          {t("soFunktioniert")}
+          {landingPage.headline}
         </h3>
       </div>
 
       <div style={classes.soFunktioniertMap}>
-        <img src="/assets/images/suchparameter.ec9c079a.svg" style={classes.soFunktioniertMapImage}></img>
-        <h2 style={classes.soFunktioniertMapText}>{t("soFunktioniertMapText1")}</h2>
-        <img src="/assets/images/angebot-suchen.2ee1baf7.svg" style={classes.soFunktioniertMapImage}></img>
-        <h2 style={classes.soFunktioniertMapText}>{t("soFunktioniertMapText2")}</h2>
-        <img src="/assets/images/jetzt-buchen.ed895604.svg" style={classes.soFunktioniertMapImage}></img>
-        <h2 style={classes.soFunktioniertMapText}>{t("soFunktioniertMapText3")}</h2>
+        {landingPage.kacheln.map((kachel, index) => {
+          return (
+            <div key={index}>
+              <img src={kachel.kachelImgUrl} style={classes.soFunktioniertMapImage}></img>
+              <h2 style={classes.soFunktioniertMapText}>{kachel.kachelText}</h2>
+            </div>
+          )
+        })}
       </div>
 
       <Grid container direction={isSmallScreen ? "column" : "row"} style={classes.HelpContainer}>
         <Grid item container spacing={2} direction={"row"} xs={isSmallScreen ? 12 : 6} style={classes.help}>
           <Grid item xs={9}>
-            <h2 style={classes.helpQuestion}>{t("helpQuestion")}</h2>
-            <p style={classes.helpAnswer}>{t("helpAnswer")}</p>
+            <h2 style={classes.helpQuestion}>{landingPage.callToAction.boxHeadline}</h2>
+            <p style={classes.helpAnswer}>{landingPage.callToAction.boxText}</p>
           </Grid>
           <Grid item xs={3}>
             <Link href="/offerer" passHref>
@@ -85,7 +89,7 @@ export default function Home({ offers }: HomeProps) {
         </Grid>
         <Grid item xs={isSmallScreen ? 12 : 6} style={classes.moreInfoWrapper}>
           <Link href="/howItWorks" passHref style={classes.moreInfo}>
-            {t("moreInfo")}
+            {landingPage.callToAction.linkText}
           </Link>
         </Grid>
       </Grid>
@@ -104,7 +108,7 @@ export default function Home({ offers }: HomeProps) {
                     : classes.largerScreen.uberAufklaeverkInfoHeader
                 }
               >
-                {t("uberAufklaeverkInfoHeader")}
+                {landingPage.ueberAkw.subheadline}
               </h4>
               <h3
                 style={
@@ -113,22 +117,19 @@ export default function Home({ offers }: HomeProps) {
                     : classes.smallerScreen.uberAufklaeverkTitle
                 }
               >
-                {t("uberAufklaeverkTitle")}
+                {landingPage.ueberAkw.headline}
               </h3>
-              <p style={classes.uberAufklaeverkText}>{t("uberAufklaeverkText1")}</p>
-              <p style={{ padding: "10px", color: "#004c45" }}>{t("uberAufklaeverkText2")}</p>
-              <p style={{ padding: "10px", color: "#004c45" }}>{t("uberAufklaeverkText3")}</p>
+              <p style={{ padding: "20px", color: "#004c45", whiteSpace: "pre-line" }}>{landingPage.ueberAkw.text}</p>
 
               <Link href="/aboutUs" passHref>
                 <Button variant="contained" style={classes.uberAufklaeverkButton}>
-                  {" "}
-                  {t("uberAufklaeverkButton")}{" "}
+                  {landingPage.ueberAkw.buttonText}
                 </Button>
               </Link>
             </Box>
             <Box style={isMatch ? classes.smallerScreen.subwayPairBox : classes.largerScreen.subwayPairBox}>
               <img
-                src="/assets/images/subwayPair.jpg"
+                src={landingPage.ueberAkw.pictureUrl}
                 style={isSmallScreen ? classes.smallerScreen.subwayPairImage : classes.largerScreen.subwayPairImage}
               ></img>
             </Box>
@@ -140,41 +141,21 @@ export default function Home({ offers }: HomeProps) {
           <h4 style={classes.flipCardHeader}>{t("flipCardHeader")}</h4>
           <h3 style={classes.flipCardQuestion}>{t("flipCardQuestion")}</h3>
           <div style={classes.flipCardInnerContainer}>
-            <Paper className="container" sx={classes.flipCard}>
-              <Box className="card" sx={classes.flipCardContext}>
-                <Box className="front" sx={classes.flipCardFront}>
-                  <img src="/assets/images/blm.jpg" style={classes.flipCardFrontImage}></img>
-                </Box>
-                <Box className="back" sx={classes.flipCardBack}>
-                  <img src="/assets/images/blm.jpg" style={classes.flipCardBackImage}></img>
-                  <p style={classes.flipCardBackText}>{t("flipCardBackText1")}</p>
-                </Box>
-              </Box>
-            </Paper>
-
-            <Paper className="container" sx={classes.flipCard}>
-              <Box className="card" sx={classes.flipCardContext}>
-                <Box className="front" sx={classes.flipCardFront}>
-                  <img src="/assets/images/equality.jpg" style={classes.flipCardFrontImage}></img>
-                </Box>
-                <Box className="back" sx={classes.flipCardBack}>
-                  <img src="/assets/images/equality.jpg" style={classes.flipCardBackImage}></img>
-                  <p style={classes.flipCardBackText}>{t("flipCardBackText2")}</p>
-                </Box>
-              </Box>
-            </Paper>
-
-            <Paper className="container" sx={classes.flipCard}>
-              <Box className="card" sx={classes.flipCardContext}>
-                <Box className="front" sx={classes.flipCardFront}>
-                  <img src="/assets/images/blm.jpg" style={classes.flipCardFrontImage}></img>
-                </Box>
-                <Box className="back" sx={classes.flipCardBack}>
-                  <img src="/assets/images/blm.jpg" style={classes.flipCardBackImage}></img>
-                  <p style={classes.flipCardBackText}>{t("flipCardBackText3")}</p>
-                </Box>
-              </Box>
-            </Paper>
+            {landingPage.wusstestDu.map((item, index) => {
+              return (
+                <Paper key={index} className="container" sx={classes.flipCard}>
+                  <Box className="card" sx={classes.flipCardContext}>
+                    <Box className="front" sx={classes.flipCardFront}>
+                      <img src={item.pictureUrl} style={classes.flipCardFrontImage}></img>
+                    </Box>
+                    <Box className="back" sx={classes.flipCardBack}>
+                      <img src={item.pictureUrl} style={classes.flipCardBackImage}></img>
+                      <p style={classes.flipCardBackText}>{item.text}</p>
+                    </Box>
+                  </Box>
+                </Paper>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -190,11 +171,13 @@ export async function getStaticProps({ locale }) {
 
   const service = new ContentfulService(_client)
   const offers = await service.getOffers()
+  const landingPage = await service.getLandingPage()
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer", "index"])),
       offers,
+      landingPage,
     },
   }
 }
