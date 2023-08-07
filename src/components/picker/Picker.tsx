@@ -110,7 +110,7 @@ const Picker: React.FC<PickerProps> = (props) => {
     <Grid container sx={{ ...classes.mainBox }} spacing={2}>
       <Grid item xs={12}>
         <Autocomplete
-          componentsProps={{ popper: { style: { width: "220px", zIndex: "1", height: "100px" } } }}
+          componentsProps={{ popper: { style: { width: "280px", zIndex: "1", height: "100px" } } }}
           multiple
           ListboxProps={{ style: { maxHeight: "300px" } }}
           disableCloseOnSelect={true}
@@ -132,7 +132,7 @@ const Picker: React.FC<PickerProps> = (props) => {
 
       <Grid item xs={12}>
         <Autocomplete
-          componentsProps={{ popper: { style: { width: "220px", zIndex: "1", height: "200px" } } }}
+          componentsProps={{ popper: { style: { width: "280px", zIndex: "1", height: "200px" } } }}
           multiple
           disableCloseOnSelect={true}
           sx={{ ...classes.autoComplete }}
@@ -154,7 +154,7 @@ const Picker: React.FC<PickerProps> = (props) => {
 
       <Grid item xs={12}>
         <Autocomplete
-          componentsProps={{ popper: { style: { width: "220px", zIndex: "1", height: "200px" } } }}
+          componentsProps={{ popper: { style: { width: "280px", zIndex: "1", height: "200px" } } }}
           ListboxProps={{ style: { maxHeight: "185px" } }}
           multiple
           disableCloseOnSelect={true}

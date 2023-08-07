@@ -29,19 +29,22 @@ export const ContactForm = () => {
     organisation: false,
     message: false,
   })
+  const  [emailErrorMessage,setEmailErrorMessage]=useState("")
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target
     setFormData((prevState) => ({ ...prevState, [id]: value }))
     setFormErrors((prevState) => ({ ...prevState, [id]: false }))
+    setEmailErrorMessage("")
   }
 
   const handleSubmit = () => {
+    
     const updatedFormErrors = {
       ...formErrors,
     }
 
-    let hasError = false
+    let hasError = false;
     for (const [key, value] of Object.entries(formData)) {
       if (value === "") {
         updatedFormErrors[key as keyof FormData] = true
@@ -49,10 +52,25 @@ export const ContactForm = () => {
       }
     }
 
+    
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    
+
+    if (!formData.email) {
+      updatedFormErrors.email = true
+      hasError = true
+      setEmailErrorMessage("E-mail is required")
+    } else if (!emailPattern.test(formData.email)) {
+      updatedFormErrors.email = true
+      hasError = true
+      setEmailErrorMessage("Invalid Email") 
+    } else {
+      setEmailErrorMessage("")
+    } 
+
     setFormErrors(updatedFormErrors)
-    if (!hasError) {
-      console.log("success")
-    }
+
+    
   }
 
   return (
@@ -99,7 +117,7 @@ export const ContactForm = () => {
           ></TextField>
         </div>
         <div style={{ height: "90px", width: "100%" }}>
-          <TextField
+        <TextField
             type="text"
             id="email"
             variant="standard"
@@ -108,9 +126,11 @@ export const ContactForm = () => {
             error={formErrors.email}
             value={formData.email}
             onChange={handleChange}
-            helperText={formErrors.email ? "E-mail is required" : ""}
-            sx={classes.formInputs}
-          ></TextField>
+            helperText={
+              emailErrorMessage
+            }
+  sx={classes.formInputs}
+></TextField>
         </div>
         <div style={{ height: "90px", width: "100%" }}>
           <TextField

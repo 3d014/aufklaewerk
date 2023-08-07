@@ -7,6 +7,7 @@ export const filterByCity = (filteredOffers: OfferDto[], filteredLocation: strin
     return filteredOffers
   }
 }
+//city filter logic to be determined
 
 export const filterByType = (
   filteredOffers: OfferDto[],

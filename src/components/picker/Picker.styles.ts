@@ -16,10 +16,11 @@ export const classes: Classes = {
   mainBox: {
     border: "2px solid white",
     borderRadius: "10px",
-    width: "250px",
+    width: "300px",
     background: "white",
     paddingRight: "1rem",
     paddingBottom: "20px",
+    marginLeft:0,
     // rowGap: "5px",
     // marginBottom:'100px',
     "@media screen and (max-width:300px)": { width: "270px", margin: "0 5px 0 5px" },
