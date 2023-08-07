@@ -13,7 +13,7 @@ import { useRouter } from "next/router"
 import { filterByType } from "../utils/offeringFilters"
 import { OfferDto } from "../src/models/offer-dto"
 import { createClient } from "contentful"
-import { ContentfulService } from "../src/contentful-client"
+import { ContentfulService } from "../src/contentful-service"
 
 const Searcher = ({ offers }: { offers: OfferDto[] }) => {
   const isMatch = useMediaQuery("(max-width:800px)")

@@ -40,7 +40,7 @@ export const classes: Classes = {
   },
 
   upperSectionContainer: { minHeight: "100vh", padding: "20px 20px 20px 20px" },
-  upperSectionText: { textAlign: "right", marginLeft: "15px", color: "#004c45" },
+  upperSectionText: { textAlign: "right", marginLeft: "15px", color: "#004c45", whiteSpace: "pre-line" },
   offererPathImg: { marginTop: "100px", width: "100%", height: "100%" },
   contactFormWrapper: { marginBottom: "50px" },
 }

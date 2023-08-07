@@ -5,6 +5,7 @@ export const classes = {
       fontSize: "36px",
       fontFamily: "Montserrat",
       color: "#004c45",
+      whiteSpace: "pre-line",
     },
     contactFormImperative: {
       fontSize: "60px",
@@ -19,6 +20,7 @@ export const classes = {
     contactFormText: {
       fontSize: "22px",
       fontFamily: "Montserrat",
+      whiteSpace: "pre-line",
     },
     contactFormImperative: {
       fontSize: "26px",

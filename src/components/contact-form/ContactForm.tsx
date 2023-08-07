@@ -4,6 +4,7 @@ import { ChangeEvent, useState } from "react"
 import { classes } from "./ContactForm.styles"
 import { useTranslation } from "next-i18next"
 import React from "react"
+import { ContactPage } from "@/src/models/contact-page"
 
 interface FormData {
   name: string
@@ -19,7 +20,7 @@ const initalFormData = {
   message: "",
 }
 
-export const ContactForm = () => {
+export const ContactForm: React.FC<{ page: ContactPage }> = ({ page }) => {
   const { t } = useTranslation(["contact"])
   const isMatch = useMediaQuery("(max-width:640px)")
   const [formData, setFormData] = useState<FormData>(initalFormData)
@@ -77,24 +78,12 @@ export const ContactForm = () => {
     <Box>
       <Stack sx={{ ...classes.contactFormTextContainer }} spacing={2}>
         <Typography sx={isMatch ? classes.smallerScreen.contactFormText : classes.largerScreen.contactFormText}>
-          {t("contactFormText1")}
-        </Typography>
-        <Typography sx={isMatch ? classes.smallerScreen.contactFormText : classes.largerScreen.contactFormText}>
-          {t("contactFormText2")}
-        </Typography>
-        <Typography sx={isMatch ? classes.smallerScreen.contactFormText : classes.largerScreen.contactFormText}>
-          {t("contactFormText3")}
-        </Typography>
-        <Typography sx={isMatch ? classes.smallerScreen.contactFormText : classes.largerScreen.contactFormText}>
-          {t("contactFormText4")}
-        </Typography>
-        <Typography sx={isMatch ? classes.smallerScreen.contactFormText : classes.largerScreen.contactFormText}>
-          {t("contactFormText5")}
+          {page?.contractText}
         </Typography>
         <Typography
           sx={isMatch ? classes.smallerScreen.contactFormImperative : classes.largerScreen.contactFormImperative}
         >
-          {t("contactFormTextImperative")}
+          {page?.contactHeadline}
         </Typography>
       </Stack>
 

@@ -7,15 +7,17 @@ import { ContactForm } from "../src/components/contact-form/ContactForm"
 import { classes } from "../styles/AboutUs.styles"
 import { MemberDto } from "../src/models/member-dto"
 import { createClient } from "contentful"
-import { ContentfulService } from "../src/contentful-client"
+import { ContentfulService } from "../src/contentful-service"
+import { AboutUsPage } from "../src/models/about-us"
 
 const filterOptions = ["Alle", "Gründer", "Marketing", "IT", "PR"]
 
 interface AboutUsProps {
   members: MemberDto[]
+  aboutUsPage: AboutUsPage
 }
 
-const AboutUsPage = ({ members }: AboutUsProps) => {
+const AboutUsPage = ({ members, aboutUsPage }: AboutUsProps) => {
   const { t } = useTranslation(["aboutUs"])
   const isMatch = useMediaQuery("(max-width:780px)")
   const isSmallScreen = useMediaQuery("(max-width:450px)")
@@ -48,34 +50,24 @@ const AboutUsPage = ({ members }: AboutUsProps) => {
         <img src="/assets/images/aufklaeverkTeam.jpg" style={classes.aufklaeverkTeamImage}></img>
         <div style={classes.aufklaeverkTeamTextSection}>
           <h3 style={{ fontSize: "32px", color: "white", fontFamily: "DM Serif Text, serif" }}>
-            {t("aufklaeverkTeamTitle")}
+            {aboutUsPage.heroSectionHeadline}
           </h3>
-          {t("aufklaeverkTeamTextSection1")}{" "}
-          <span style={{ color: "#ff5100" }}>{t("aufklaeverkTeamTextSectionColored")} </span>
-          {t("aufklaeverkTeamTextSection2")}
+          {aboutUsPage.heroSectionText}
         </div>
       </Box>
-      <Box style={classes.subTextSection}>
-        {t("subtext1")}
-        <br></br>
-        {t("subtext2")}
-      </Box>
-
+      <Box style={classes.subTextSection}>{aboutUsPage.subheadline}</Box>
       <Box style={isMatch ? classes.smallerScreen?.orangeBoxContainer : classes.largerScreen?.orangeBoxContainer}>
         <Box
           style={isMatch ? classes.smallerScreen?.huggingPeopleWrapper : classes.smallerScreen?.huggingPeopleWrapper}
         >
-          <img src="/assets/images/huggingPeople.jpg" style={classes.huggingPeopleImage}></img>
+          <img src={aboutUsPage.celebrationOfHumanity.pictureUrl} style={classes.huggingPeopleImage}></img>
         </Box>
         <Box style={isMatch ? classes.smallerScreen?.orangeBox : classes.largerScreen?.orangeBox}>
-          <h4 style={classes.orangeBoxTopLeftText}>{t("orangeBoxTopLeft")}</h4>
+          <h4 style={classes.orangeBoxTopLeftText}>{aboutUsPage.celebrationOfHumanity.subheadline}</h4>
           <h3 style={isMatch ? classes.smallerScreen?.orangeBoxTitle : classes.largerScreen?.orangeBoxTitle}>
-            {t("orangeBoxTitle")}
+            {aboutUsPage.celebrationOfHumanity.headline}
           </h3>
-          <p style={classes.orangeBoxParagraph}>{t("orangeBoxParagraph1")}</p>
-
-          <p style={classes.orangeBoxParagraph}>{t("orangeBoxParagraph2")}</p>
-          <p style={classes.orangeBoxParagraph}>{t("orangeBoxParagraph3")}</p>
+          <p style={classes.orangeBoxParagraph}>{aboutUsPage.celebrationOfHumanity.text}</p>
           <ul style={classes.orangeBoxList}>
             <li>{t("orangeBoxListItem1")}</li>
             <li>{t("orangeBoxListItem2")}</li>
@@ -84,7 +76,7 @@ const AboutUsPage = ({ members }: AboutUsProps) => {
           <Link href="/offerer" passHref>
             <Button variant="contained" style={classes.orangeBoxButton}>
               {" "}
-              {t("orangeBoxButton")}{" "}
+              {aboutUsPage.celebrationOfHumanity.buttonText}
             </Button>
           </Link>
         </Box>
@@ -92,9 +84,9 @@ const AboutUsPage = ({ members }: AboutUsProps) => {
 
       <div style={classes.memberContainerTopPart}>
         <h3 style={isMatch ? classes.smallerScreen?.memberContainerTitle : classes.largerScreen?.memberContainerTitle}>
-          {t("memberContainerTitle")}
+          {aboutUsPage.teamSection.headline}
         </h3>
-        <p style={classes.memberContainerText}>{t("memberContainerText")}</p>
+        <p style={classes.memberContainerText}>{aboutUsPage.teamSection.subheadline}</p>
 
         <div>
           {filterOptions.map((option, index) => {
@@ -170,11 +162,13 @@ export async function getStaticProps({ locale }) {
 
   const service = new ContentfulService(_client)
   const members = await service.getMembers()
+  const aboutUsPage = await service.getAboutUsPage()
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer", "contact", "aboutUs"])),
       members,
+      aboutUsPage,
     },
   }
 }
